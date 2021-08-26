@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
+  TextInput as RNTextInput,
   Dimensions,
   Pressable,
   TouchableOpacity,
@@ -16,6 +16,7 @@ import { login } from "../api/Users";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
+import { TextInput } from "../components/forms/TextInput";
 
 const windows = Dimensions.get("window");
 
@@ -81,42 +82,19 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
             </Text>
           </View>
           <View style={{ height: 100 }}>
-            <View
-              style={{
-                paddingBottom: 8,
-                borderBottomColor: "red",
-                borderBottomWidth: 1,
-              }}
-            >
-              <TextInput
-                autoCapitalize="none"
-                placeholder="email"
-                style={{
-                  fontSize: 18,
-                }}
-                onChangeText={(text) => setEmail(text)}
-                value={email}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: 20,
-                paddingBottom: 8,
-                borderBottomColor: "red",
-                borderBottomWidth: 1,
-              }}
-            >
-              <TextInput
-                autoCapitalize="none"
-                placeholder="password"
-                secureTextEntry={true}
-                style={{ fontSize: 18 }}
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-              />
-            </View>
+            <TextInput
+              placeholder="email"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+            />
+            <TextInput
+              placeholder="password"
+              onChangeText={(text) => setPassword(text)}
+              value={password}
+              secureTextEntry={true}
+            />
           </View>
-          <View style={{}}>
+          <View>
             <Text style={{ textAlign: "center", color: "red" }}>
               {errorMessage}
             </Text>
