@@ -13,7 +13,7 @@ interface signUpScreenProp {
   route: RouteProp<ScreenParamList, "SignUp">;
 }
 
-export const SignUpScreen = ({ navigation, route }: signUpScreenProp) => {
+export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const [email, setEmail] = useState("");
