@@ -1,4 +1,5 @@
 import axios from "axios";
+import Constants from "expo-constants";
 
 export interface UserInfo {
   description: string;
@@ -15,8 +16,14 @@ export interface UserInfo {
 
 export const login = (email: string, password: string) =>
   axios
-    .post("https://express-airbnb-api.herokuapp.com/user/log_in", {
-      email,
-      password,
-    })
+    .post(
+      "/user/log_in",
+      {
+        email,
+        password,
+      },
+      {
+        baseURL: Constants.manifest?.extra?.backendBasePath,
+      }
+    )
     .then((response) => response.data as UserInfo);

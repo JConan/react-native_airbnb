@@ -36,8 +36,6 @@ export default function App() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [loginStatus, setLoginStatus] = useState("");
-
   const signIn = async () => {
     if (email.trim() === "" || password.trim() === "") {
       setErrorMessage("Please fill all fields");
@@ -53,6 +51,8 @@ export default function App() {
       setErrorMessage(`Hello ${userInfo.username}`);
     } catch (response) {
       setErrorMessage("Invalid username/password");
+      console.log(response);
+      console.log(Constants.manifest?.extra);
     }
   };
 
@@ -114,6 +114,7 @@ export default function App() {
               }}
             >
               <TextInput
+                autoCapitalize="none"
                 placeholder="password"
                 secureTextEntry={true}
                 style={{ fontSize: 18 }}
