@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
 
 interface FormProp {
@@ -36,7 +37,18 @@ export const Form = ({
 
       {children}
 
-      <View style={{ marginTop: 50 }}>
+      <View style={{ marginTop: 50, position: "relative" }}>
+        <ActivityIndicator
+          style={{
+            position: "absolute",
+            // right: 25,
+            top: -25,
+            alignSelf: "center",
+            display: validationButtonDisabled ? "flex" : "none",
+          }}
+          size="large"
+          color="red"
+        />
         <Text style={styles.errorMessage}>{errorMessage}</Text>
         <TouchableOpacity
           style={{
