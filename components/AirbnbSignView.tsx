@@ -7,6 +7,7 @@ import {
   PressableStateCallbackType,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const windows = Dimensions.get("window");
 
@@ -15,24 +16,29 @@ interface AirbnbSignViewProp {
 }
 
 export const AirbnbSignView = ({ children }: AirbnbSignViewProp) => (
-  <KeyboardAwareScrollView style={{ backgroundColor: "white" }}>
-    <View
-      style={{
-        backgroundColor: "#fff",
-        padding: 16,
-        paddingTop: Constants.statusBarHeight + 60,
-      }}
-    >
-      <Image
+  <View
+    style={{
+      backgroundColor: "#fff",
+      flex: 1,
+    }}
+  >
+    <SafeAreaView>
+      <KeyboardAwareScrollView
         style={{
-          width: 130,
-          height: 100,
-          alignSelf: "center",
+          paddingHorizontal: 16,
         }}
-        resizeMode="contain"
-        source={require("../assets/icon.png")}
-      />
-      {children}
-    </View>
-  </KeyboardAwareScrollView>
+      >
+        <Image
+          style={{
+            width: 130,
+            height: 100,
+            alignSelf: "center",
+          }}
+          resizeMode="contain"
+          source={require("../assets/icon.png")}
+        />
+        {children}
+      </KeyboardAwareScrollView>
+    </SafeAreaView>
+  </View>
 );

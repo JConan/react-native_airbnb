@@ -44,7 +44,9 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
         />
         <TextInput
           placeholder="describe yourself in a few words..."
-          withViewStyle={styles.textArea}
+          multiline={true}
+          numberOfLines={4}
+          withViewStyle={styles.textAreaView}
           value={description}
           onChangeText={setDescription}
         />
@@ -66,12 +68,13 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
 };
 
 const styles = StyleSheet.create({
-  textArea: {
+  textAreaView: {
     borderWidth: 1,
     borderColor: "red",
-    padding: 15,
-    paddingTop: 10,
-    paddingBottom: 10,
-    height: 100,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    height: 110,
+    alignItems: "flex-start",
   },
+  textArea: {},
 });
