@@ -18,12 +18,13 @@ interface SignInScreenProp {
 
 const SignInForm = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(1),
 });
 
 type ISignInForm = z.infer<typeof SignInForm>;
 
 export const SignInScreen = ({ navigation }: SignInScreenProp) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     control,
     handleSubmit,
@@ -33,24 +34,19 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
   });
 
   useEffect(() => {
-    const fieldsInError = Object.keys(errors);
-    switch (fieldsInError.length) {
-      case 2:
+    const fieldsInError = Object.keys(errors).sort().join(" ");
+    switch (fieldsInError) {
+      case "email password":
+      case "password":
         setErrorMessage("Please fill all fields");
         break;
-      case 1:
-        setErrorMessage(
-          errors[fieldsInError[0]].message === "Required"
-            ? "Please fill all fields"
-            : errors[fieldsInError[0]].message
-        );
+      case "email":
+        setErrorMessage(errors.email.message);
         break;
       default:
         setErrorMessage("");
     }
   }, [errors]);
-
-  const [errorMessage, setErrorMessage] = useState("");
 
   const onSignIn = ({ email, password }: ISignInForm) =>
     login(email, password)
