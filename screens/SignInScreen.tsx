@@ -8,7 +8,7 @@ import { AirbnbSignView } from "../components/AirbnbSignView";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
-import { UserSignInForms, UserSignInSchema } from "../api/UserSchema";
+import { UserSignInForms, UserSignInFormSchema } from "../api/UserSchema";
 
 interface SignInScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignIn">;
@@ -22,7 +22,7 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(UserSignInSchema),
+    resolver: zodResolver(UserSignInFormSchema),
   });
 
   useEffect(() => {

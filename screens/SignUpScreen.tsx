@@ -7,28 +7,15 @@ import { Form } from "../components/forms/Form";
 import { ScreenParamList } from "./Screens";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
+import { UserSignUpForm, UserSignUpFormSchema } from "../api/UserSchema";
+import { signUp } from "../api/User";
 
 interface signUpScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignUp">;
   route: RouteProp<ScreenParamList, "SignUp">;
 }
-
-const SignUpForm = z
-  .object({
-    email: z.string().email(),
-    username: z.string().min(1),
-    description: z.string().min(1),
-    password: z.string().min(1),
-    confirmPassword: z.string().min(1),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "passwords don't match",
-    path: ["confirmPassword"],
-  });
-type ISignUpForm = z.infer<typeof SignUpForm>;
 
 export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,7 +25,7 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(SignUpForm),
+    resolver: zodResolver(UserSignUpFormSchema),
   });
 
   useEffect(() => {
@@ -58,9 +45,18 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
     }
   }, [errors]);
 
-  const onSignUp = (formData: ISignUpForm) => {
-    console.log(formData);
-    return new Promise((resolve) => setTimeout(resolve, 2000));
+  const onSignUp = (formData: UserSignUpForm) => {
+    return signUp(formData)
+      .then((userInfo) => {
+        setErrorMessage(`Bienvenue ${userInfo.username}`);
+        alert(JSON.stringify(userInfo));
+      })
+      .catch((error: Error) => {
+        if (error.message.match("400"))
+          setErrorMessage("email or username already used");
+        else setErrorMessage(error.message);
+        console.log(error);
+      });
   };
 
   return (

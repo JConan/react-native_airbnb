@@ -30,6 +30,7 @@ export const AirbnbSignView = ({ children }: AirbnbSignViewProp) => (
       >
         <Image
           style={{
+            marginTop: 60,
             width: 130,
             height: 100,
             alignSelf: "center",
