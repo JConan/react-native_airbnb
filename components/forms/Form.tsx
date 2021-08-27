@@ -38,17 +38,18 @@ export const Form = ({
       {children}
 
       <View style={{ marginTop: 50, position: "relative" }}>
-        <ActivityIndicator
-          style={{
-            position: "absolute",
-            // right: 25,
-            top: -25,
-            alignSelf: "center",
-            display: validationButtonDisabled ? "flex" : "none",
-          }}
-          size="large"
-          color="red"
-        />
+        {validationButtonDisabled && (
+          <ActivityIndicator
+            style={{
+              position: "absolute",
+              // right: 25,
+              top: -25,
+              alignSelf: "center",
+            }}
+            size="large"
+            color="red"
+          />
+        )}
         <Text style={styles.errorMessage}>{errorMessage}</Text>
         <TouchableOpacity
           style={{
@@ -97,6 +98,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     textAlign: "center",
     color: "red",
+    height: 18,
   },
   linkButton: {
     marginTop: 8,
