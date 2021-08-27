@@ -7,6 +7,8 @@ import {
   NativeSyntheticEvent,
   TextInputFocusEventData,
 } from "react-native";
+import { Octicons } from "@expo/vector-icons";
+import { useState } from "react";
 
 interface TextInputProp {
   onBlur?:
@@ -28,24 +30,42 @@ export const TextInput = ({
   secureTextEntry,
   withViewStyle,
   withTextStyle,
-}: TextInputProp) => (
-  <View
-    style={{
-      marginBottom: 40,
-      paddingBottom: 8,
-      borderBottomColor: "red",
-      borderBottomWidth: 1,
-      ...withViewStyle,
-    }}
-  >
-    <RNTextInput
-      autoCapitalize="none"
-      placeholder={placeholder}
-      secureTextEntry={secureTextEntry}
-      style={{ fontSize: 18, ...withTextStyle }}
-      value={value}
-      onChangeText={onChangeText}
-      onBlur={onBlur}
-    />
-  </View>
-);
+}: TextInputProp) => {
+  const [hidden, setHidden] = useState(secureTextEntry);
+
+  return (
+    <View
+      style={{
+        marginBottom: 40,
+        paddingBottom: 8,
+        borderBottomColor: "red",
+        borderBottomWidth: 1,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        ...withViewStyle,
+      }}
+    >
+      <RNTextInput
+        autoCapitalize="none"
+        placeholder={placeholder}
+        secureTextEntry={hidden}
+        style={{ flex: 1, fontSize: 18, ...withTextStyle }}
+        value={value}
+        onChangeText={onChangeText}
+        onBlur={onBlur}
+      />
+      {secureTextEntry !== undefined && (
+        <Octicons
+          name={hidden ? "eye-closed" : "eye"}
+          style={{ flex: 0.1 }}
+          size={24}
+          color="black"
+          onPress={() => {
+            console.log({ hidden });
+            setHidden(!hidden);
+          }}
+        />
+      )}
+    </View>
+  );
+};
