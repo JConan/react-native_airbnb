@@ -1,8 +1,6 @@
 import React from "react";
 import {
   GestureResponderEvent,
-  Pressable,
-  PressableStateCallbackType,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,6 +10,7 @@ import {
 interface FormProp {
   title: string;
   validationButtonName: string;
+  validationButtonDisabled?: boolean | null | undefined;
   linkButtonName: string;
   children?: React.ReactNode;
   errorMessage?: string;
@@ -24,6 +23,7 @@ interface FormProp {
 export const Form = ({
   title,
   validationButtonName,
+  validationButtonDisabled,
   linkButtonName,
   children,
   errorMessage,
@@ -39,10 +39,22 @@ export const Form = ({
       <View style={{ marginTop: 50 }}>
         <Text style={styles.errorMessage}>{errorMessage}</Text>
         <TouchableOpacity
-          style={styles.validationButton}
+          style={{
+            ...styles.validationButton,
+            backgroundColor: validationButtonDisabled ? "#ededed" : "#fff",
+            borderColor: validationButtonDisabled ? "#808080" : "red",
+          }}
           onPress={onValidationButtonPress}
+          disabled={validationButtonDisabled}
         >
-          <Text style={{ fontSize: 18 }}>{validationButtonName}</Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: validationButtonDisabled ? "#808080" : "#000",
+            }}
+          >
+            {validationButtonName}
+          </Text>
         </TouchableOpacity>
         <Text style={styles.linkButton} onPress={onLinkButtonPress}>
           {linkButtonName}
@@ -64,7 +76,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: 200,
     height: 60,
-    borderColor: "red",
     borderWidth: 1,
     borderRadius: 50,
     alignItems: "center",

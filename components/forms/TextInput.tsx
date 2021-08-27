@@ -4,9 +4,14 @@ import {
   TextInput as RNTextInput,
   ViewStyle,
   TextStyle,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
 } from "react-native";
 
 interface TextInputProp {
+  onBlur?:
+    | ((e: NativeSyntheticEvent<TextInputFocusEventData>) => void)
+    | undefined;
   onChangeText?: ((text: string) => void) | undefined;
   value?: string | undefined;
   placeholder?: string | undefined;
@@ -16,6 +21,7 @@ interface TextInputProp {
 }
 
 export const TextInput = ({
+  onBlur,
   onChangeText,
   value,
   placeholder,
@@ -37,8 +43,9 @@ export const TextInput = ({
       placeholder={placeholder}
       secureTextEntry={secureTextEntry}
       style={{ fontSize: 18, ...withTextStyle }}
-      onChangeText={onChangeText}
       value={value}
+      onChangeText={onChangeText}
+      onBlur={onBlur}
     />
   </View>
 );

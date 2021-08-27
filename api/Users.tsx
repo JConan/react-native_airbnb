@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import Constants from "expo-constants";
 
 export interface UserInfo {
@@ -14,8 +14,9 @@ export interface UserInfo {
   username: string;
 }
 
-export const login = (email: string, password: string) =>
-  axios
+export const login = async (email: string, password: string) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  return axios
     .post(
       "/user/log_in",
       {
@@ -27,3 +28,4 @@ export const login = (email: string, password: string) =>
       }
     )
     .then((response) => response.data as UserInfo);
+};

@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import Constants from "expo-constants";
-import * as EmailValidator from "email-validator";
+import React, { useEffect, useState } from "react";
 import { login } from "../api/Users";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenParamList } from "./Screens";
@@ -9,35 +7,62 @@ import { TextInput } from "../components/forms/TextInput";
 import { Form } from "../components/forms/Form";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 interface SignInScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignIn">;
   route: RouteProp<ScreenParamList, "SignIn">;
 }
 
+const SignInForm = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+type ISignInForm = z.infer<typeof SignInForm>;
+
 export const SignInScreen = ({ navigation }: SignInScreenProp) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(SignInForm),
+  });
+
+  useEffect(() => {
+    const fieldsInError = Object.keys(errors);
+    switch (fieldsInError.length) {
+      case 2:
+        setErrorMessage("Please fill all fields");
+        break;
+      case 1:
+        setErrorMessage(
+          errors[fieldsInError[0]].message === "Required"
+            ? "Please fill all fields"
+            : errors[fieldsInError[0]].message
+        );
+        break;
+      default:
+        setErrorMessage("");
+    }
+  }, [errors]);
+
   const [errorMessage, setErrorMessage] = useState("");
 
-  const signIn = async () => {
-    if (email.trim() === "" || password.trim() === "") {
-      setErrorMessage("Please fill all fields");
-      return;
-    }
-    if (!EmailValidator.validate(email)) {
-      setErrorMessage("Please provide a valid email");
-      return;
-    }
-    try {
-      const userInfo = await login(email, password);
-      console.log(userInfo);
-      setErrorMessage(`Hello ${userInfo.username}`);
-    } catch (response) {
-      setErrorMessage("Invalid username/password");
-      console.log(response);
-      console.log(Constants.manifest?.extra);
-    }
-  };
+  const onSignIn = ({ email, password }: ISignInForm) =>
+    login(email, password)
+      .then((userInfo) => {
+        setErrorMessage(`Hello ${userInfo.username}`);
+        alert(JSON.stringify(userInfo));
+      })
+      .catch((error: Error) => {
+        if (error.message.match("401"))
+          setErrorMessage("Invalid username/password");
+        else setErrorMessage(error.message);
+      });
 
   return (
     <AirbnbSignView>
@@ -45,16 +70,37 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
         errorMessage={errorMessage}
         title="Sign in"
         validationButtonName="Sign in"
+        validationButtonDisabled={isSubmitting}
         linkButtonName="No account? Register"
-        onValidationButtonPress={signIn}
+        onValidationButtonPress={handleSubmit(onSignIn)}
         onLinkButtonPress={() => navigation.navigate("SignUp")}
       >
-        <TextInput placeholder="email" value={email} onChangeText={setEmail} />
-        <TextInput
-          placeholder="password"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="email"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name="email"
+          defaultValue=""
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              placeholder="password"
+              value={value}
+              secureTextEntry={true}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+          name="password"
+          defaultValue=""
         />
       </Form>
     </AirbnbSignView>
