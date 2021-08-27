@@ -1,18 +1,12 @@
 import React, { useEffect } from "react";
-import { StyleSheet, TextInput as RNTextInput } from "react-native";
+import { StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 import { Form } from "../components/forms/Form";
 import { ScreenParamList } from "./Screens";
 import { useState } from "react";
-import {
-  useForm,
-  Controller,
-  Control,
-  FieldValues,
-  ControllerRenderProps,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
@@ -49,7 +43,6 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
 
   useEffect(() => {
     const fieldsInError = Object.keys(errors).sort().join(" ");
-    console.log(errors);
     switch (fieldsInError) {
       case "":
         setErrorMessage("");
@@ -115,5 +108,4 @@ const styles = StyleSheet.create({
     height: 110,
     alignItems: "flex-start",
   },
-  textArea: {},
 });

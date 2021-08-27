@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { login } from "../api/Users";
+import { login } from "../api/User";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
 import { Form } from "../components/forms/Form";
 import { AirbnbSignView } from "../components/AirbnbSignView";
-import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
+import { UserSignInForms, UserSignInSchema } from "../api/UserSchema";
 
 interface SignInScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignIn">;
   route: RouteProp<ScreenParamList, "SignIn">;
 }
-
-const SignInForm = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
-});
-
-type ISignInForm = z.infer<typeof SignInForm>;
 
 export const SignInScreen = ({ navigation }: SignInScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,26 +22,25 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(SignInForm),
+    resolver: zodResolver(UserSignInSchema),
   });
 
   useEffect(() => {
     const fieldsInError = Object.keys(errors).sort().join(" ");
     switch (fieldsInError) {
-      case "email password":
-      case "password":
-        setErrorMessage("Please fill all fields");
+      case "":
+        setErrorMessage("");
         break;
       case "email":
         setErrorMessage(errors.email.message);
         break;
       default:
-        setErrorMessage("");
+        setErrorMessage("Please fill all fields");
     }
   }, [errors]);
 
-  const onSignIn = ({ email, password }: ISignInForm) =>
-    login(email, password)
+  const onSignIn = (formData: UserSignInForms) =>
+    login(formData)
       .then((userInfo) => {
         setErrorMessage(`Hello ${userInfo.username}`);
         alert(JSON.stringify(userInfo));
@@ -57,6 +49,7 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
         if (error.message.match("401"))
           setErrorMessage("Invalid username/password");
         else setErrorMessage(error.message);
+        console.log(error);
       });
 
   return (
