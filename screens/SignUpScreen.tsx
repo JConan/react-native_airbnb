@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, TextInput as RNTextInput } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -7,23 +7,102 @@ import { Form } from "../components/forms/Form";
 import { TextInput } from "../components/forms/TextInput";
 import { ScreenParamList } from "./Screens";
 import { useState } from "react";
+import {
+  useForm,
+  Controller,
+  Control,
+  FieldValues,
+  ControllerRenderProps,
+} from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface signUpScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignUp">;
   route: RouteProp<ScreenParamList, "SignUp">;
 }
 
+const SignUpForm = z
+  .object({
+    email: z.string().email(),
+    username: z.string().min(1),
+    description: z.string().min(1),
+    password: z.string().min(1),
+    confirmPassword: z.string().min(1),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "passwords don't match",
+    path: ["confirmPassword"],
+  });
+type ISignUpForm = z.infer<typeof SignUpForm>;
+
+const ControlledTextInput = ({
+  control,
+  name,
+  placeholder,
+  secureTextEntry,
+  children,
+}: {
+  control: Control<FieldValues, object>;
+  name: string;
+  placeholder?: string;
+  secureTextEntry?: boolean;
+  children?: (
+    field: ControllerRenderProps<FieldValues, string>
+  ) => React.ReactNode;
+}) => (
+  <Controller
+    control={control}
+    render={({ field }) => (
+      <>
+        {(children && children(field)) || (
+          <TextInput
+            placeholder={placeholder || name}
+            value={field.value}
+            secureTextEntry={secureTextEntry}
+            onChangeText={field.onChange}
+            onBlur={field.onBlur}
+          />
+        )}
+      </>
+    )}
+    name={name}
+    defaultValue=""
+  />
+);
+
 export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [description, setDescription] = useState("");
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(SignUpForm),
+  });
 
-  const validate = () => {
-    setErrorMessage("Passwords must be the same");
+  useEffect(() => {
+    const fieldsInError = Object.keys(errors).sort().join(" ");
+    console.log(errors);
+    switch (fieldsInError) {
+      case "":
+        setErrorMessage("");
+        break;
+      case "email":
+        setErrorMessage(errors.email.message);
+        break;
+      case "confirmPassword":
+        setErrorMessage(errors.confirmPassword.message);
+        break;
+      default:
+        setErrorMessage("Please fill all fields");
+    }
+  }, [errors]);
+
+  const onSignUp = (formData: ISignUpForm) => {
+    console.log(formData);
+    return new Promise((resolve) => setTimeout(resolve, 2000));
   };
 
   return (
@@ -32,35 +111,39 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
         errorMessage={errorMessage}
         title="Sign Up"
         validationButtonName="Sign Up"
+        validationButtonDisabled={isSubmitting}
         linkButtonName="Already have an account ? Sign In"
         onLinkButtonPress={() => navigation.navigate("SignIn")}
-        onValidationButtonPress={validate}
+        onValidationButtonPress={handleSubmit(onSignUp)}
       >
-        <TextInput placeholder="email" value={email} onChangeText={setEmail} />
-        <TextInput
-          placeholder="username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
+        <ControlledTextInput control={control} name="email" />
+        <ControlledTextInput control={control} name="username" />
+        <ControlledTextInput
+          control={control}
+          name="description"
           placeholder="describe yourself in a few words..."
-          multiline={true}
-          numberOfLines={4}
-          withViewStyle={styles.textAreaView}
-          value={description}
-          onChangeText={setDescription}
-        />
-        <TextInput
-          placeholder="password"
+        >
+          {({ onChange, onBlur, value }) => (
+            <TextInput
+              placeholder="describe yourself in a few words..."
+              multiline={true}
+              numberOfLines={4}
+              withViewStyle={styles.textAreaView}
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+            />
+          )}
+        </ControlledTextInput>
+        <ControlledTextInput
+          control={control}
+          name="password"
           secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
         />
-        <TextInput
-          placeholder="confirm password"
+        <ControlledTextInput
+          control={control}
+          name="confirmPassword"
           secureTextEntry={true}
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
         />
       </Form>
     </AirbnbSignView>
