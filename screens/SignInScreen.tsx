@@ -6,7 +6,6 @@ import { RouteProp } from "@react-navigation/native";
 import { TextInput } from "../components/forms/TextInput";
 import { Form } from "../components/forms/Form";
 import { AirbnbSignView } from "../components/AirbnbSignView";
-
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
