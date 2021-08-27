@@ -4,7 +4,6 @@ import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 import { Form } from "../components/forms/Form";
-import { TextInput } from "../components/forms/TextInput";
 import { ScreenParamList } from "./Screens";
 import { useState } from "react";
 import {
@@ -16,6 +15,7 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 
 interface signUpScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignUp">;
@@ -35,41 +35,6 @@ const SignUpForm = z
     path: ["confirmPassword"],
   });
 type ISignUpForm = z.infer<typeof SignUpForm>;
-
-const ControlledTextInput = ({
-  control,
-  name,
-  placeholder,
-  secureTextEntry,
-  children,
-}: {
-  control: Control<FieldValues, object>;
-  name: string;
-  placeholder?: string;
-  secureTextEntry?: boolean;
-  children?: (
-    field: ControllerRenderProps<FieldValues, string>
-  ) => React.ReactNode;
-}) => (
-  <Controller
-    control={control}
-    render={({ field }) => (
-      <>
-        {(children && children(field)) || (
-          <TextInput
-            placeholder={placeholder || name}
-            value={field.value}
-            secureTextEntry={secureTextEntry}
-            onChangeText={field.onChange}
-            onBlur={field.onBlur}
-          />
-        )}
-      </>
-    )}
-    name={name}
-    defaultValue=""
-  />
-);
 
 export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -122,19 +87,10 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
           control={control}
           name="description"
           placeholder="describe yourself in a few words..."
-        >
-          {({ onChange, onBlur, value }) => (
-            <TextInput
-              placeholder="describe yourself in a few words..."
-              multiline={true}
-              numberOfLines={4}
-              withViewStyle={styles.textAreaView}
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-            />
-          )}
-        </ControlledTextInput>
+          multiline={true}
+          numberOfLines={4}
+          containerStyle={styles.textAreaView}
+        />
         <ControlledTextInput
           control={control}
           name="password"

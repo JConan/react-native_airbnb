@@ -14,8 +14,8 @@ interface ControlledTextInputProps {
   name: string;
   placeholder?: string | undefined;
   secureTextEntry?: boolean | undefined;
-  withViewStyle?: ViewStyle;
-  withTextStyle?: TextStyle;
+  containerStyle?: ViewStyle;
+  textStyle?: TextStyle;
   multiline?: boolean | undefined;
   numberOfLines?: number | undefined;
 }
@@ -27,7 +27,7 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
     <Controller
       control={props.control}
       render={({ field: { onChange, onBlur, value } }) => (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, ...props.containerStyle }}>
           <TextInput
             textAlignVertical="top"
             multiline={props.multiline}
@@ -35,7 +35,7 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
             autoCapitalize="none"
             placeholder={props.placeholder || props.name}
             secureTextEntry={hidden}
-            style={{ ...styles.textInput, ...props.withTextStyle }}
+            style={{ ...styles.textInput, ...props.textStyle }}
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
@@ -60,12 +60,13 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 40,
-    paddingBottom: 8,
     borderBottomColor: "red",
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  textInput: { flex: 1, fontSize: 18 },
-  eyeIcon: { flex: 0.1 },
+  textInput: { flex: 1, fontSize: 18, height: 35 },
+  eyeIcon: {
+    padding: 5,
+  },
 });

@@ -3,7 +3,6 @@ import { login } from "../api/Users";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
-import { TextInput } from "../components/forms/TextInput";
 import { Form } from "../components/forms/Form";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 import { useForm, Controller } from "react-hook-form";
@@ -34,7 +33,6 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
   });
 
   useEffect(() => {
-    console.log(errors);
     const fieldsInError = Object.keys(errors).sort().join(" ");
     switch (fieldsInError) {
       case "email password":
