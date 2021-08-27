@@ -9,6 +9,7 @@ import { AirbnbSignView } from "../components/AirbnbSignView";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 
 interface SignInScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignIn">;
@@ -33,6 +34,7 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
   });
 
   useEffect(() => {
+    console.log(errors);
     const fieldsInError = Object.keys(errors).sort().join(" ");
     switch (fieldsInError) {
       case "email password":
@@ -70,32 +72,11 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
         onValidationButtonPress={handleSubmit(onSignIn)}
         onLinkButtonPress={() => navigation.navigate("SignUp")}
       >
-        <Controller
+        <ControlledTextInput control={control} name="email" />
+        <ControlledTextInput
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="email"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-            />
-          )}
-          name="email"
-          defaultValue=""
-        />
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              placeholder="password"
-              value={value}
-              secureTextEntry={true}
-              onChangeText={onChange}
-              onBlur={onBlur}
-            />
-          )}
           name="password"
-          defaultValue=""
+          secureTextEntry={true}
         />
       </Form>
     </AirbnbSignView>
