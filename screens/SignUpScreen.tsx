@@ -4,21 +4,29 @@ import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 import { Form } from "../components/forms/Form";
-import { ScreenParamList } from "./Screens";
+import { DefaultScreenParamList } from "./Screens";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
-import { UserSignUpForm, UserSignUpFormSchema } from "../api/UserSchema";
+import {
+  UserInfo,
+  UserSignUpForm,
+  UserSignUpFormSchema,
+} from "../api/UserSchema";
 import { signUp } from "../api/User";
 import { AxiosError } from "axios";
 
 interface signUpScreenProp {
-  navigation: NativeStackNavigationProp<ScreenParamList, "SignUp">;
-  route: RouteProp<ScreenParamList, "SignUp">;
+  navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignUp">;
+  route: RouteProp<DefaultScreenParamList, "SignUp">;
+  storeUserInfo: (userInfo: UserInfo) => void;
 }
 
-export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
+export const SignUpScreen = ({
+  navigation,
+  storeUserInfo,
+}: signUpScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -51,6 +59,7 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
       .then((userInfo) => {
         setErrorMessage(`Bienvenue ${userInfo.username}`);
         alert(JSON.stringify(userInfo));
+        storeUserInfo(userInfo);
       })
       .catch((error: AxiosError<{ error: string }>) => {
         if (error.message.match("400")) {

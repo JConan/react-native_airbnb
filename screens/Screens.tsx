@@ -1,12 +1,10 @@
-import { SignInScreen } from "./SignInScreen";
-import { SignUpScreen } from "./SignUpScreen";
+import { UserInfo } from "../api/UserSchema";
 
-export type ScreenParamList = {
+export type DefaultScreenParamList = {
   SignUp: undefined;
   SignIn: undefined;
 };
 
-export default {
-  SignUp: SignUpScreen,
-  SignIn: SignInScreen,
+export type UserScreenParamList = {
+  MyProfil: undefined;
 };

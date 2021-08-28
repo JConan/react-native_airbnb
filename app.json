@@ -1,12 +1,14 @@
 {
   "expo": {
+    "privacy": "public",
     "name": "airbnb",
     "slug": "airbnb",
     "version": "1.1.0",
-    "orientation": "portrait",
     "githubUrl": "https://github.com/JConan/react-native_airbnb",
     "description": "Exercice @LeReacteurIO",
     "icon": "./assets/icon.png",
+    "orientation": "portrait",
+    "platforms": ["android", "ios"],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

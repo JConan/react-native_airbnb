@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { login } from "../api/User";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ScreenParamList } from "./Screens";
+import { DefaultScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
 import { Form } from "../components/forms/Form";
 import { AirbnbSignView } from "../components/AirbnbSignView";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
-import { UserSignInForms, UserSignInFormSchema } from "../api/UserSchema";
+import {
+  UserInfo,
+  UserSignInForms,
+  UserSignInFormSchema,
+} from "../api/UserSchema";
 
 interface SignInScreenProp {
-  navigation: NativeStackNavigationProp<ScreenParamList, "SignIn">;
-  route: RouteProp<ScreenParamList, "SignIn">;
+  navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignIn">;
+  route: RouteProp<DefaultScreenParamList, "SignIn">;
+  storeUserInfo: (userInfo: UserInfo) => void;
 }
 
-export const SignInScreen = ({ navigation }: SignInScreenProp) => {
+export const SignInScreen = ({
+  navigation,
+  storeUserInfo,
+}: SignInScreenProp) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     control,
@@ -42,8 +50,7 @@ export const SignInScreen = ({ navigation }: SignInScreenProp) => {
   const onSignIn = (formData: UserSignInForms) =>
     login(formData)
       .then((userInfo) => {
-        setErrorMessage(`Hello ${userInfo.username}`);
-        alert(JSON.stringify(userInfo));
+        storeUserInfo(userInfo);
       })
       .catch((error: Error) => {
         if (error.message.match("401"))
