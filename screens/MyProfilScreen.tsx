@@ -3,7 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Button, Text } from "react-native";
 import { UserInfo } from "../api/UserSchema";
-import { AirbnbSignView } from "../components/AirbnbSignView";
+import { AirbnbBaseView } from "../components/AirbnbBaseView";
 import { UserScreenParamList } from "./Screens";
 
 interface MyProfilScreenProp {
@@ -16,9 +16,9 @@ export const MyProfilScreen = ({
   user: { userInfo, logout },
 }: MyProfilScreenProp) => {
   return (
-    <AirbnbSignView>
+    <AirbnbBaseView smallLogo={true}>
       <Text>{JSON.stringify(userInfo)}</Text>
       <Button title="logout" onPress={logout} />
-    </AirbnbSignView>
+    </AirbnbBaseView>
   );
 };

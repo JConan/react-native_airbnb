@@ -36,7 +36,7 @@ export default function App() {
     <NavigationContainer>
       {userInfo ? (
         <UserStack.Navigator>
-          <UserStack.Screen name="MyProfil">
+          <UserStack.Screen name="MyProfil" options={{ headerShown: false }}>
             {(props) => (
               <MyProfilScreen {...props} user={{ userInfo, logout }} />
             )}

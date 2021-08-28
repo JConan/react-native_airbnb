@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AirbnbSignView } from "../components/AirbnbSignView";
+import { AirbnbBaseView } from "../components/AirbnbBaseView";
 import { Form } from "../components/forms/Form";
 import { DefaultScreenParamList } from "./Screens";
 import { useState } from "react";
@@ -69,7 +69,7 @@ export const SignUpScreen = ({
   };
 
   return (
-    <AirbnbSignView>
+    <AirbnbBaseView>
       <Form
         errorMessage={errorMessage}
         title="Sign Up"
@@ -100,7 +100,7 @@ export const SignUpScreen = ({
           secureTextEntry={true}
         />
       </Form>
-    </AirbnbSignView>
+    </AirbnbBaseView>
   );
 };
 

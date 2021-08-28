@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DefaultScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
 import { Form } from "../components/forms/Form";
-import { AirbnbSignView } from "../components/AirbnbSignView";
+import { AirbnbBaseView } from "../components/AirbnbBaseView";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
@@ -60,7 +60,7 @@ export const SignInScreen = ({
       });
 
   return (
-    <AirbnbSignView>
+    <AirbnbBaseView>
       <Form
         errorMessage={errorMessage}
         title="Sign in"
@@ -77,6 +77,6 @@ export const SignInScreen = ({
           secureTextEntry={true}
         />
       </Form>
-    </AirbnbSignView>
+    </AirbnbBaseView>
   );
 };
