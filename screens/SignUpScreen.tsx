@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import { UserSignUpForm, UserSignUpFormSchema } from "../api/UserSchema";
 import { signUp } from "../api/User";
+import { AxiosError } from "axios";
 
 interface signUpScreenProp {
   navigation: NativeStackNavigationProp<ScreenParamList, "SignUp">;
@@ -51,11 +52,10 @@ export const SignUpScreen = ({ navigation }: signUpScreenProp) => {
         setErrorMessage(`Bienvenue ${userInfo.username}`);
         alert(JSON.stringify(userInfo));
       })
-      .catch((error: Error) => {
-        if (error.message.match("400"))
-          setErrorMessage("email or username already used");
-        else setErrorMessage(error.message);
-        console.log(error);
+      .catch((error: AxiosError<{ error: string }>) => {
+        if (error.message.match("400")) {
+          setErrorMessage(error.response!.data.error);
+        } else setErrorMessage(error.message);
       });
   };
 

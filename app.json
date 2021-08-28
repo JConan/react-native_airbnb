@@ -2,7 +2,7 @@
   "expo": {
     "name": "airbnb",
     "slug": "airbnb",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "githubUrl": "https://github.com/JConan/react-native_airbnb",
     "description": "Exercice @LeReacteurIO",
@@ -19,9 +19,11 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.jconan.airbnb",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.jconan.airbnb",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
