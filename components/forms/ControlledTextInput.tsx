@@ -42,7 +42,7 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
           />
           {props.secureTextEntry !== undefined && (
             <Octicons
-              name={hidden ? "eye-closed" : "eye"}
+              name={hidden ? "eye" : "eye-closed"}
               style={styles.eyeIcon}
               size={24}
               color="black"
