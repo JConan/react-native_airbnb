@@ -32,7 +32,7 @@ export const Form = ({
   onLinkButtonPress,
 }: FormProp) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingHorizontal: 16 }}>
       <Text style={styles.title}>{title}</Text>
 
       {children}

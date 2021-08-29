@@ -39,9 +39,6 @@ export default function App() {
     AsyncStorage.getItem("userInfo").then(
       (value) => value && setUserInfo(JSON.parse(value))
     );
-    getRooms()
-      .then((rooms) => console.log(JSON.stringify(rooms[0])))
-      .catch((err) => console.log(JSON.stringify(err)));
   }, []);
 
   return (

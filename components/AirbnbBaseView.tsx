@@ -1,8 +1,8 @@
 import React from "react";
 import Constants from "expo-constants";
 import { Image, View, Dimensions } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const windows = Dimensions.get("window");
 
@@ -14,11 +14,7 @@ interface AirbnbSignViewProp {
 export const AirbnbBaseView = ({ children, bigHeader }: AirbnbSignViewProp) => (
   <View style={{ backgroundColor: "#fff", flex: 1 }}>
     <SafeAreaView />
-    <KeyboardAwareScrollView
-      style={{
-        paddingHorizontal: 16,
-      }}
-    >
+    <KeyboardAwareScrollView>
       <Image
         style={{
           marginTop: bigHeader ? 60 : 0,
