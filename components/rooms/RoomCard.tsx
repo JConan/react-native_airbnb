@@ -1,4 +1,3 @@
-import { useNavigationState } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/core";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
@@ -6,6 +5,8 @@ import { Room } from "../../api/RoomsSchema";
 import { Rating } from "./Rating";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { HomeScreenStackParamList } from "../../screens/Screens";
+import MapView, { Marker } from "react-native-maps";
+import { FontAwesome } from "@expo/vector-icons";
 
 export const RoomCard = (room: Room & { fullContent?: boolean }) => {
   const navigation =
@@ -15,6 +16,7 @@ export const RoomCard = (room: Room & { fullContent?: boolean }) => {
 
   const [isFullDescription, setFullDescription] = useState(false);
 
+  console.log(room.location);
   return (
     <>
       <Pressable onPress={() => navigation.navigate("RoomScreen", room)}>
@@ -61,6 +63,29 @@ export const RoomCard = (room: Room & { fullContent?: boolean }) => {
           >
             {room.description}
           </Text>
+          <View></View>
+          <View style={{ height: 200 }}>
+            <MapView
+              // La MapView doit obligatoirement avoir des dimensions
+              style={{ flex: 1 }}
+              initialRegion={{
+                longitude: room.location[0],
+                latitude: room.location[1],
+                latitudeDelta: 0.08,
+                longitudeDelta: 0.08,
+              }}
+              showsUserLocation={true}
+            >
+              <Marker
+                coordinate={{
+                  longitude: room.location[0],
+                  latitude: room.location[1],
+                }}
+              >
+                <FontAwesome name="map-marker" size={24} color="red" />
+              </Marker>
+            </MapView>
+          </View>
         </View>
       )}
     </>

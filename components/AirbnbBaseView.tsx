@@ -4,8 +4,6 @@ import { Image, View, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-const windows = Dimensions.get("window");
-
 interface AirbnbSignViewProp {
   children?: React.ReactNode;
   bigHeader?: boolean;

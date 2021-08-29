@@ -54,6 +54,7 @@ export default function App() {
           <UserTab.Screen
             name="HomeTab"
             options={{
+              tabBarLabel: "Home",
               tabBarIcon: ({ color, size }) => (
                 <Octicons name="home" size={size} color={color} />
               ),
