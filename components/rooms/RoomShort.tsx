@@ -1,12 +1,12 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { Room } from "../../api/RoomsSchema";
 import { Rating } from "./Rating";
 
 export const RoomShort = (room: Room) => {
   //   console.log(room.reviews);
   return (
-    <>
+    <Pressable onPress={() => alert(room._id)}>
       <View style={styles.imageContainer}>
         <Image style={{ flex: 1 }} source={{ uri: room.photos![0].url }} />
         <Text style={styles.priceText}>{`${room.price} €`}</Text>
@@ -36,7 +36,7 @@ export const RoomShort = (room: Room) => {
           />
         </View>
       </View>
-    </>
+    </Pressable>
   );
 };
 
