@@ -16,7 +16,6 @@ export const RoomCard = (room: Room & { fullContent?: boolean }) => {
 
   const [isFullDescription, setFullDescription] = useState(false);
 
-  console.log(room.location);
   return (
     <>
       <Pressable onPress={() => navigation.navigate("RoomScreen", room)}>

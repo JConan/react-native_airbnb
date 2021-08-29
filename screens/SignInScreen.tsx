@@ -57,7 +57,6 @@ export const SignInScreen = ({
         if (error.message.match("401"))
           setErrorMessage("Invalid username/password");
         else setErrorMessage(error.message);
-        console.log(error);
       });
 
   return (
