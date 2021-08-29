@@ -22,7 +22,7 @@ export const RoomScreen = ({
 
   return (
     <BaseView removeSafeArea>
-      <ScrollView>
+      <ScrollView bounces={false}>
         <RoomCard {...room} fullContent={true} />
         <View style={{ marginHorizontal: 16 }}>
           <View
@@ -52,7 +52,7 @@ export const RoomScreen = ({
               }}
             />
           </View>
-          <View style={{ height: 200, marginTop: 50, marginBottom: 100 }}>
+          <View style={{ height: 250, marginTop: 50, marginBottom: 100 }}>
             <MapView
               style={{ flex: 1 }}
               initialRegion={{
@@ -62,15 +62,15 @@ export const RoomScreen = ({
                 longitudeDelta: 0.08,
               }}
               showsUserLocation={true}
+              provider={"google"}
             >
               <Marker
+                title={room.user.account.userName}
                 coordinate={{
                   longitude: room.location[0],
                   latitude: room.location[1],
                 }}
-              >
-                <FontAwesome name="map-marker" size={24} color="red" />
-              </Marker>
+              ></Marker>
             </MapView>
           </View>
         </View>
