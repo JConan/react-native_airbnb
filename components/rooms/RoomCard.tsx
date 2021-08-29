@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
     bottom: 26,
   },
   descriptionContainer: {
-    margin: 16,
-    marginBottom: 25,
+    margin: 10,
     paddingRight: 105,
     paddingBottom: 20,
     borderBottomColor: "gray",

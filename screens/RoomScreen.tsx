@@ -7,6 +7,7 @@ import { RoomCard } from "../components/rooms/RoomCard";
 import { BaseView } from "../components/BaseView";
 import MapView, { Marker } from "react-native-maps";
 import { FontAwesome } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
 
 interface RoomScreenProp {
   navigation: NativeStackNavigationProp<HomeScreenStackParamList, "RoomScreen">;
@@ -23,14 +24,34 @@ export const RoomScreen = ({
     <BaseView removeSafeArea>
       <ScrollView>
         <RoomCard {...room} fullContent={true} />
-        <View style={{ paddingHorizontal: 16 }}>
-          <Text
-            numberOfLines={isFullDescription ? undefined : 3}
-            onPress={() => setFullDescription(!isFullDescription)}
+        <View style={{ marginHorizontal: 16 }}>
+          <View
+            style={{
+              alignItems: "center",
+              borderColor: "#e6e6e6",
+              borderBottomWidth: 1,
+              borderTopWidth: 1,
+              position: "relative",
+            }}
           >
-            {room.description}
-          </Text>
-          <View></View>
+            <Text
+              style={{ paddingTop: 10, paddingBottom: 28 }}
+              numberOfLines={isFullDescription ? undefined : 3}
+              onPress={() => setFullDescription(!isFullDescription)}
+            >
+              {room.description}
+            </Text>
+            <EvilIcons
+              name={isFullDescription ? "arrow-up" : "arrow-down"}
+              size={24}
+              color="#a8a8a8"
+              style={{
+                position: "absolute",
+                bottom: 0,
+                marginVertical: 5,
+              }}
+            />
+          </View>
           <View style={{ height: 200, marginTop: 50, marginBottom: 100 }}>
             <MapView
               style={{ flex: 1 }}
