@@ -6,5 +6,12 @@ export type DefaultScreenParamList = {
 };
 
 export type UserScreenParamList = {
+  Home: undefined;
+  MyProfil: undefined;
+};
+
+export type UserTabParamList = {
+  Home: undefined;
+  AroundMe: undefined;
   MyProfil: undefined;
 };

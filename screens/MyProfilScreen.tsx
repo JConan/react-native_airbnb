@@ -16,7 +16,7 @@ export const MyProfilScreen = ({
   user: { userInfo, logout },
 }: MyProfilScreenProp) => {
   return (
-    <AirbnbBaseView smallLogo={true}>
+    <AirbnbBaseView>
       <Text>{JSON.stringify(userInfo)}</Text>
       <Button title="logout" onPress={logout} />
     </AirbnbBaseView>

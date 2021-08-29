@@ -69,7 +69,7 @@ export const SignUpScreen = ({
   };
 
   return (
-    <AirbnbBaseView>
+    <AirbnbBaseView bigHeader={true}>
       <Form
         errorMessage={errorMessage}
         title="Sign Up"

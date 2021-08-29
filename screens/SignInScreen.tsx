@@ -60,7 +60,7 @@ export const SignInScreen = ({
       });
 
   return (
-    <AirbnbBaseView>
+    <AirbnbBaseView bigHeader={true}>
       <Form
         errorMessage={errorMessage}
         title="Sign in"

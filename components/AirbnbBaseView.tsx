@@ -8,10 +8,10 @@ const windows = Dimensions.get("window");
 
 interface AirbnbSignViewProp {
   children?: React.ReactNode;
-  smallLogo?: boolean;
+  bigHeader?: boolean;
 }
 
-export const AirbnbBaseView = ({ children, smallLogo }: AirbnbSignViewProp) => (
+export const AirbnbBaseView = ({ children, bigHeader }: AirbnbSignViewProp) => (
   <View style={{ backgroundColor: "#fff", flex: 1 }}>
     <SafeAreaView />
     <KeyboardAwareScrollView
@@ -21,9 +21,9 @@ export const AirbnbBaseView = ({ children, smallLogo }: AirbnbSignViewProp) => (
     >
       <Image
         style={{
-          marginTop: smallLogo ? 0 : 60,
-          width: smallLogo ? 39 : 130,
-          height: smallLogo ? 30 : 100,
+          marginTop: bigHeader ? 60 : 0,
+          width: bigHeader ? 130 : 30,
+          height: bigHeader ? 100 : 30,
           alignSelf: "center",
         }}
         resizeMode="contain"
