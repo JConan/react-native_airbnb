@@ -7,12 +7,12 @@ import { FlatList, Text } from "react-native";
 import { getRooms } from "../api/Room";
 import { Rooms } from "../api/RoomsSchema";
 import { AirbnbBaseView } from "../components/AirbnbBaseView";
-import { RoomShort } from "../components/rooms/RoomShort";
-import { UserScreenParamList } from "./Screens";
+import { RoomCard } from "../components/rooms/RoomCard";
+import { HomeScreenStackParamList } from "./Screens";
 
 interface HomeScreenProp {
-  navigation: NativeStackNavigationProp<UserScreenParamList, "Home">;
-  route: RouteProp<UserScreenParamList, "Home">;
+  navigation: NativeStackNavigationProp<HomeScreenStackParamList, "HomeScreen">;
+  route: RouteProp<HomeScreenStackParamList, "HomeScreen">;
 }
 
 export const HomeScreen = ({}: HomeScreenProp) => {
@@ -26,7 +26,7 @@ export const HomeScreen = ({}: HomeScreenProp) => {
     <AirbnbBaseView>
       <FlatList
         data={rooms}
-        renderItem={({ item: room }) => <RoomShort {...room} />}
+        renderItem={({ item: room }) => <RoomCard {...room} />}
         keyExtractor={(item) => item._id}
         style={{ borderTopColor: "gray", borderTopWidth: 1, marginTop: 2 }}
       />

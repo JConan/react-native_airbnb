@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   DefaultScreenParamList,
-  UserScreenParamList,
+  HomeScreenStackParamList,
   UserTabParamList,
 } from "./screens/Screens";
 import { useState } from "react";
@@ -16,10 +16,10 @@ import { MyProfilScreen } from "./screens/MyProfilScreen";
 import { useEffect } from "react";
 import { HomeScreen } from "./screens/HomeScreen";
 import { Octicons } from "@expo/vector-icons";
-import { getRooms } from "./api/Room";
+import { RoomScreen } from "./screens/RoomScreen";
 
 const DefaultStack = createNativeStackNavigator<DefaultScreenParamList>();
-const UserStack = createNativeStackNavigator<UserScreenParamList>();
+const HomeStack = createNativeStackNavigator<HomeScreenStackParamList>();
 const UserTab = createBottomTabNavigator<UserTabParamList>();
 
 export default function App() {
@@ -52,17 +52,32 @@ export default function App() {
           }}
         >
           <UserTab.Screen
-            name="Home"
+            name="HomeTab"
             options={{
               tabBarIcon: ({ color, size }) => (
                 <Octicons name="home" size={size} color={color} />
               ),
             }}
           >
-            {(props) => <HomeScreen {...props} />}
+            {() => (
+              <HomeStack.Navigator>
+                <HomeStack.Screen
+                  name="HomeScreen"
+                  options={{ headerShown: false }}
+                >
+                  {(props) => <HomeScreen {...props} />}
+                </HomeStack.Screen>
+                <HomeStack.Screen
+                  name="RoomScreen"
+                  options={{ headerShown: false }}
+                >
+                  {(props) => <RoomScreen {...props} />}
+                </HomeStack.Screen>
+              </HomeStack.Navigator>
+            )}
           </UserTab.Screen>
           <UserTab.Screen
-            name="MyProfil"
+            name="MyProfilTab"
             options={{
               tabBarLabel: "My Profil",
               tabBarIcon: ({ color, size }) => (

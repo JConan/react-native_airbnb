@@ -18,8 +18,8 @@ export const Rating = ({ rate, reviews }: RatingProp) => {
 
   return (
     <View style={{ flexDirection: "row", alignItems: "center" }}>
-      {starColor.map((color) => (
-        <Octicons name="star" size={24} color={color} />
+      {starColor.map((color, index) => (
+        <Octicons name="star" size={24} color={color} key={index} />
       ))}
       <Text
         style={{ color: "grey", fontSize: 17, marginLeft: 10 }}
