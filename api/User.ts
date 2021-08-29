@@ -1,11 +1,6 @@
 import axios from "axios";
 import Constants from "expo-constants";
-import {
-  UserInfo,
-  UserSignInForms,
-  UserSignUpForm,
-  UserSignUpFormSchema,
-} from "./UserSchema";
+import { UserInfo, UserSignInForms, UserSignUpForm } from "./UserSchema";
 
 export const login = async (data: UserSignInForms): Promise<UserInfo> => {
   return axios

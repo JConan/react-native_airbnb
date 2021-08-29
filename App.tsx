@@ -16,6 +16,7 @@ import { MyProfilScreen } from "./screens/MyProfilScreen";
 import { useEffect } from "react";
 import { HomeScreen } from "./screens/HomeScreen";
 import { Octicons } from "@expo/vector-icons";
+import { getRooms } from "./api/Room";
 
 const DefaultStack = createNativeStackNavigator<DefaultScreenParamList>();
 const UserStack = createNativeStackNavigator<UserScreenParamList>();
@@ -38,6 +39,9 @@ export default function App() {
     AsyncStorage.getItem("userInfo").then(
       (value) => value && setUserInfo(JSON.parse(value))
     );
+    getRooms()
+      .then((rooms) => console.log(JSON.stringify(rooms[0])))
+      .catch((err) => console.log(JSON.stringify(err)));
   }, []);
 
   return (
