@@ -4,7 +4,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { DefaultScreenParamList } from "./Screens";
 import { RouteProp } from "@react-navigation/native";
 import { Form } from "../components/forms/Form";
-import { AirbnbBaseView } from "../components/AirbnbBaseView";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
@@ -60,7 +59,7 @@ export const SignInScreen = ({
       });
 
   return (
-    <BaseView showLogo={true}>
+    <BaseView>
       <Form
         errorMessage={errorMessage}
         title="Sign in"

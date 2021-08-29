@@ -10,6 +10,10 @@ export type HomeScreenStackParamList = {
   RoomScreen: Room;
 };
 
+export type ProfileScreenStackParamList = {
+  MyProfile: undefined;
+};
+
 export type UserTabParamList = {
   HomeTab: undefined;
   AroundMeTab: undefined;

@@ -3,10 +3,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import { getRooms } from "../api/Room";
 import { Rooms } from "../api/RoomsSchema";
-import { AirbnbBaseView } from "../components/AirbnbBaseView";
 import { BaseView } from "../components/BaseView";
 import { RoomCard } from "../components/rooms/RoomCard";
 import { HomeScreenStackParamList } from "./Screens";
@@ -24,7 +23,7 @@ export const HomeScreen = ({}: HomeScreenProp) => {
   }, []);
 
   return (
-    <BaseView showLogo={true}>
+    <BaseView removeSafeArea>
       <FlatList
         data={rooms}
         renderItem={({ item: room }) => <RoomCard {...room} />}
