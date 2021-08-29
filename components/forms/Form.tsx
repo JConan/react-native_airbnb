@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Image,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface FormProp {
   title: string;
@@ -32,7 +34,17 @@ export const Form = ({
   onLinkButtonPress,
 }: FormProp) => {
   return (
-    <View style={{ flex: 1, paddingHorizontal: 16 }}>
+    <KeyboardAwareScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
+      <Image
+        style={{
+          marginTop: 60,
+          width: 130,
+          height: 100,
+          alignSelf: "center",
+        }}
+        resizeMode="contain"
+        source={require("../../assets/icon.png")}
+      />
       <Text style={styles.title}>{title}</Text>
 
       {children}
@@ -73,7 +85,7 @@ export const Form = ({
           {linkButtonName}
         </Text>
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

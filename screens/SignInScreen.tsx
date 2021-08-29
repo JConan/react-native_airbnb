@@ -13,6 +13,7 @@ import {
   UserSignInForms,
   UserSignInFormSchema,
 } from "../api/UserSchema";
+import { BaseView } from "../components/BaseView";
 
 interface SignInScreenProp {
   navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignIn">;
@@ -60,7 +61,7 @@ export const SignInScreen = ({
       });
 
   return (
-    <AirbnbBaseView bigHeader={true}>
+    <BaseView showLogo={true}>
       <Form
         errorMessage={errorMessage}
         title="Sign in"
@@ -77,6 +78,6 @@ export const SignInScreen = ({
           secureTextEntry={true}
         />
       </Form>
-    </AirbnbBaseView>
+    </BaseView>
   );
 };

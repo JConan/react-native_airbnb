@@ -7,6 +7,7 @@ import { FlatList, Text } from "react-native";
 import { getRooms } from "../api/Room";
 import { Rooms } from "../api/RoomsSchema";
 import { AirbnbBaseView } from "../components/AirbnbBaseView";
+import { BaseView } from "../components/BaseView";
 import { RoomCard } from "../components/rooms/RoomCard";
 import { HomeScreenStackParamList } from "./Screens";
 
@@ -23,13 +24,12 @@ export const HomeScreen = ({}: HomeScreenProp) => {
   }, []);
 
   return (
-    <AirbnbBaseView>
+    <BaseView showLogo={true}>
       <FlatList
         data={rooms}
         renderItem={({ item: room }) => <RoomCard {...room} />}
         keyExtractor={(item) => item._id}
-        style={{ borderTopColor: "gray", borderTopWidth: 1, marginTop: 2 }}
       />
-    </AirbnbBaseView>
+    </BaseView>
   );
 };

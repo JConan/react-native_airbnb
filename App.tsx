@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { HomeScreen } from "./screens/HomeScreen";
 import { Octicons } from "@expo/vector-icons";
 import { RoomScreen } from "./screens/RoomScreen";
+import { BaseView } from "./components/BaseView";
 
 const DefaultStack = createNativeStackNavigator<DefaultScreenParamList>();
 const HomeStack = createNativeStackNavigator<HomeScreenStackParamList>();

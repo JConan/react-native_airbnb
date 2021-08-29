@@ -16,6 +16,7 @@ import {
 } from "../api/UserSchema";
 import { signUp } from "../api/User";
 import { AxiosError } from "axios";
+import { BaseView } from "../components/BaseView";
 
 interface signUpScreenProp {
   navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignUp">;
@@ -69,7 +70,7 @@ export const SignUpScreen = ({
   };
 
   return (
-    <AirbnbBaseView bigHeader={true}>
+    <BaseView showLogo={true}>
       <Form
         errorMessage={errorMessage}
         title="Sign Up"
@@ -100,7 +101,7 @@ export const SignUpScreen = ({
           secureTextEntry={true}
         />
       </Form>
-    </AirbnbBaseView>
+    </BaseView>
   );
 };
 
