@@ -1,15 +1,15 @@
 import React from "react";
 import { Button, ScrollView, Text } from "react-native";
-import { UserInfo } from "../api/UserSchema";
-import { BaseView } from "../components/BaseView";
+import { UserInfo } from "../../../api/UserSchema";
+import { BaseView } from "../../../components/BaseView";
 
-interface MyProfilScreenProp {
+export interface ProfileScreenProp {
   user: { userInfo: UserInfo; logout: () => Promise<void> };
 }
 
-export const MyProfilScreen = ({
+export const ProfileScreen = ({
   user: { userInfo, logout },
-}: MyProfilScreenProp) => {
+}: ProfileScreenProp) => {
   return (
     <BaseView>
       <ScrollView>

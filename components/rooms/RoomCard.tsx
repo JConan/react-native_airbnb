@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { Room } from "../../api/RoomsSchema";
 import { Rating } from "./Rating";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { HomeScreenStackParamList } from "../../screens/Screens";
+import { HomeScreenStackParamList } from "../../navigations-screens/Screens";
 
 export const RoomCard = (room: Room & { fullContent?: boolean }) => {
   const navigation =

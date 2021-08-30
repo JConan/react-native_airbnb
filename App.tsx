@@ -1,31 +1,18 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationOptions,
-} from "@react-navigation/native-stack";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  DefaultScreenParamList,
-  HomeScreenStackParamList,
-  ProfileScreenStackParamList,
-  UserTabParamList,
-} from "./screens/Screens";
+import { UserTabParamList } from "./navigations-screens/Screens";
 import { useState } from "react";
 import { UserInfo } from "./api/UserSchema";
-import { SignInScreen } from "./screens/SignInScreen";
-import { SignUpScreen } from "./screens/SignUpScreen";
-import { MyProfilScreen } from "./screens/MyProfilScreen";
 import { useEffect } from "react";
-import { HomeScreen } from "./screens/HomeScreen";
 import { Octicons } from "@expo/vector-icons";
-import { RoomScreen } from "./screens/RoomScreen";
 import { Image, View } from "react-native";
+import { UserAccountNavigatorStacks } from "./navigations-screens/user-account/UserAccountNavigatorStacks";
+import { HomeNavigatorStacks } from "./navigations-screens/authenticated-user/home/HomeNavigatorStacks";
+import { MyProfileNavigatorStacks } from "./navigations-screens/authenticated-user/my-profile/MyProfileNavigatorStacks";
 
-const DefaultStack = createNativeStackNavigator<DefaultScreenParamList>();
-const HomeStack = createNativeStackNavigator<HomeScreenStackParamList>();
-const ProfilStack = createNativeStackNavigator<ProfileScreenStackParamList>();
 const UserTab = createBottomTabNavigator<UserTabParamList>();
 
 export default function App() {
@@ -85,14 +72,9 @@ export default function App() {
             }}
           >
             {() => (
-              <HomeStack.Navigator screenOptions={stackNavigationScreenOptions}>
-                <HomeStack.Screen name="HomeScreen">
-                  {(props) => <HomeScreen {...props} />}
-                </HomeStack.Screen>
-                <HomeStack.Screen name="RoomScreen">
-                  {(props) => <RoomScreen {...props} />}
-                </HomeStack.Screen>
-              </HomeStack.Navigator>
+              <HomeNavigatorStacks
+                screenOptions={{ ...stackNavigationScreenOptions }}
+              />
             )}
           </UserTab.Screen>
           <UserTab.Screen
@@ -105,31 +87,15 @@ export default function App() {
             }}
           >
             {() => (
-              <ProfilStack.Navigator
-                screenOptions={stackNavigationScreenOptions}
-              >
-                <ProfilStack.Screen name="MyProfile">
-                  {(props) => (
-                    <MyProfilScreen {...props} user={{ userInfo, logout }} />
-                  )}
-                </ProfilStack.Screen>
-              </ProfilStack.Navigator>
+              <MyProfileNavigatorStacks
+                screenOptions={{ ...stackNavigationScreenOptions }}
+                profileScreenProp={{ user: { userInfo, logout } }}
+              />
             )}
           </UserTab.Screen>
         </UserTab.Navigator>
       ) : (
-        <DefaultStack.Navigator>
-          <DefaultStack.Screen name="SignIn" options={{ headerShown: false }}>
-            {(props) => (
-              <SignInScreen {...props} storeUserInfo={storeUserInfo} />
-            )}
-          </DefaultStack.Screen>
-          <DefaultStack.Screen name="SignUp" options={{ headerShown: false }}>
-            {(props) => (
-              <SignUpScreen {...props} storeUserInfo={storeUserInfo} />
-            )}
-          </DefaultStack.Screen>
-        </DefaultStack.Navigator>
+        <UserAccountNavigatorStacks storeUserInfo={storeUserInfo} />
       )}
     </NavigationContainer>
   );

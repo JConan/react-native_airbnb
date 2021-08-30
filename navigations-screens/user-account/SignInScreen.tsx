@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { login } from "../api/User";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { DefaultScreenParamList } from "./Screens";
-import { RouteProp } from "@react-navigation/native";
-import { Form } from "../components/forms/Form";
+import { login } from "../../api/User";
+import { Form } from "../../components/forms/Form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ControlledTextInput } from "../components/forms/ControlledTextInput";
+import { ControlledTextInput } from "../../components/forms/ControlledTextInput";
 import {
   UserInfo,
   UserSignInForms,
   UserSignInFormSchema,
-} from "../api/UserSchema";
-import { BaseView } from "../components/BaseView";
+} from "../../api/UserSchema";
+import { BaseView } from "../../components/BaseView";
+import { UserAccountNavigationProps } from "./UserAccountNavigatorStacks";
 
-interface SignInScreenProp {
-  navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignIn">;
-  route: RouteProp<DefaultScreenParamList, "SignIn">;
+interface Props extends UserAccountNavigationProps<"SignIn"> {
   storeUserInfo: (userInfo: UserInfo) => void;
 }
 
-export const SignInScreen = ({
-  navigation,
-  storeUserInfo,
-}: SignInScreenProp) => {
+export const SignInScreen = ({ navigation, storeUserInfo }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
   const {
     control,
@@ -79,3 +72,5 @@ export const SignInScreen = ({
     </BaseView>
   );
 };
+
+const handleErrors = () => "";

@@ -1,23 +1,14 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { HomeScreenStackParamList } from "./Screens";
-import { RouteProp } from "@react-navigation/native";
-import { RoomCard } from "../components/rooms/RoomCard";
-import { BaseView } from "../components/BaseView";
+import { RoomCard } from "../../../components/rooms/RoomCard";
+import { BaseView } from "../../../components/BaseView";
 import MapView, { Marker } from "react-native-maps";
-import { FontAwesome } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
+import { HomeNavigationProps } from "./HomeNavigatorStacks";
 
-interface RoomScreenProp {
-  navigation: NativeStackNavigationProp<HomeScreenStackParamList, "RoomScreen">;
-  route: RouteProp<HomeScreenStackParamList, "RoomScreen">;
-}
+interface Props extends HomeNavigationProps<"RoomScreen"> {}
 
-export const RoomScreen = ({
-  navigation,
-  route: { params: room },
-}: RoomScreenProp) => {
+export const RoomScreen = ({ route: { params: room } }: Props) => {
   const [isFullDescription, setFullDescription] = useState(false);
 
   return (

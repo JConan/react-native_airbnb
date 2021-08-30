@@ -2,32 +2,27 @@ import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { AirbnbBaseView } from "../components/AirbnbBaseView";
-import { Form } from "../components/forms/Form";
-import { DefaultScreenParamList } from "./Screens";
+import { Form } from "../../components/forms/Form";
+import { DefaultScreenParamList } from "../Screens";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ControlledTextInput } from "../components/forms/ControlledTextInput";
+import { ControlledTextInput } from "../../components/forms/ControlledTextInput";
 import {
   UserInfo,
   UserSignUpForm,
   UserSignUpFormSchema,
-} from "../api/UserSchema";
-import { signUp } from "../api/User";
+} from "../../api/UserSchema";
+import { signUp } from "../../api/User";
 import { AxiosError } from "axios";
-import { BaseView } from "../components/BaseView";
+import { BaseView } from "../../components/BaseView";
+import { UserAccountNavigationProps } from "./UserAccountNavigatorStacks";
 
-interface signUpScreenProp {
-  navigation: NativeStackNavigationProp<DefaultScreenParamList, "SignUp">;
-  route: RouteProp<DefaultScreenParamList, "SignUp">;
+interface Props extends UserAccountNavigationProps<"SignUp"> {
   storeUserInfo: (userInfo: UserInfo) => void;
 }
 
-export const SignUpScreen = ({
-  navigation,
-  storeUserInfo,
-}: signUpScreenProp) => {
+export const SignUpScreen = ({ navigation, storeUserInfo }: Props) => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const {
@@ -56,6 +51,8 @@ export const SignUpScreen = ({
   }, [errors]);
 
   const onSignUp = (formData: UserSignUpForm) => {
+    console.log("allo");
+
     return signUp(formData)
       .then((userInfo) => {
         setErrorMessage(`Bienvenue ${userInfo.username}`);
@@ -70,7 +67,7 @@ export const SignUpScreen = ({
   };
 
   return (
-    <BaseView showLogo={true}>
+    <BaseView>
       <Form
         errorMessage={errorMessage}
         title="Sign Up"
