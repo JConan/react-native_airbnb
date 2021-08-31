@@ -29,6 +29,7 @@ export const HomeNavigatorStacks = ({ screenOptions }: Props) => (
   <Stack.Navigator
     screenOptions={{
       animation: "slide_from_right",
+      headerBackTitle: "",
       ...screenOptions,
     }}
   >
