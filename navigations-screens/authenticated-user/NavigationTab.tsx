@@ -7,6 +7,7 @@ import { UserInfo } from "../../api/UserSchema";
 
 import { Image, View } from "react-native";
 import { ProfileScreen } from "./my-profile/ProfileScreen";
+import { HomeNavigatorStacks } from "./home/HomeNavigatorStacks";
 
 export type TabParams = {
   HomeTab: undefined;
@@ -55,7 +56,7 @@ export const TabNavigator = () => {
           ),
         }}
       >
-        {() => <></>}
+        {() => <HomeNavigatorStacks screenOptions={{ ...headerOptions }} />}
       </Tab.Screen>
       <Tab.Screen
         name="AroundMeTab"
