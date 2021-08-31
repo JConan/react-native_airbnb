@@ -2,12 +2,12 @@ import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import {
   createNativeStackNavigator,
-  NativeStackNavigationOptions,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { Room } from "../../../api/RoomsSchema";
 import { RoomListScreen } from "./RoomListScreen";
 import { RoomScreen } from "./RoomScreen";
+import { HeaderOptions } from "@react-navigation/elements";
 
 type ScreenParams = {
   RoomListScreen: undefined;
@@ -22,11 +22,16 @@ export type HomeNavigationProps<K extends keyof ScreenParams> = {
 };
 
 interface Props {
-  screenOptions: NativeStackNavigationOptions;
+  screenOptions: Pick<HeaderOptions, "headerTitle" | "headerTitleAlign">;
 }
 
 export const HomeNavigatorStacks = ({ screenOptions }: Props) => (
-  <Stack.Navigator {...{ screenOptions }}>
+  <Stack.Navigator
+    screenOptions={{
+      animation: "slide_from_right",
+      ...screenOptions,
+    }}
+  >
     <Stack.Screen name="RoomListScreen">
       {(props) => <RoomListScreen {...props} />}
     </Stack.Screen>

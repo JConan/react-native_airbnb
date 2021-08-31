@@ -4,9 +4,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { UserInfo } from "../../api/UserSchema";
 import { SignInScreen } from "./SignInScreen";
 import { SignUpScreen } from "./SignUpScreen";
+import { useUserState } from "../../tools/customHooks";
 
 type ScreensParams = {
   SignUp: undefined;
@@ -15,16 +15,14 @@ type ScreensParams = {
 
 const Stack = createNativeStackNavigator<ScreensParams>();
 
-interface Props {
-  storeUserInfo: (userInfo: UserInfo) => Promise<void>;
-}
-
 export type UserAccountNavigationProps<K extends keyof ScreensParams> = {
   navigation: NativeStackNavigationProp<ScreensParams, K>;
   route: RouteProp<ScreensParams, K>;
 };
 
-export const UserAccountNavigatorStacks = ({ storeUserInfo }: Props) => {
+export const UserAccountNavigatorStacks = () => {
+  const { isLoading, store: storeUserInfo } = useUserState();
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="SignIn" options={{ headerShown: false }}>
