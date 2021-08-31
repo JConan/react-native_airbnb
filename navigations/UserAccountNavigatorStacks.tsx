@@ -4,9 +4,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { SignInScreen } from "./SignInScreen";
-import { SignUpScreen } from "./SignUpScreen";
-import { useUserState } from "../../tools/customHooks";
+import { SignInScreen } from "../screens/SignInScreen";
+import { SignUpScreen } from "../screens/SignUpScreen";
+import { useUserState } from "../tools/customHooks";
 
 type ScreensParams = {
   SignUp: undefined;

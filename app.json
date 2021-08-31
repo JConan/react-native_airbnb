@@ -5,7 +5,7 @@
     "slug": "airbnb",
     "version": "1.3.1",
     "githubUrl": "https://github.com/JConan/react-native_airbnb",
-    "description": "Exercice @LeReacteurIO",
+    "description": "https://github.com/JConan/react-native_airbnb",
     "icon": "./assets/icon.png",
     "orientation": "portrait",
     "platforms": ["android", "ios"],

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { ScrollView, Text, View } from "react-native";
-import { RoomCard } from "../../../components/rooms/RoomCard";
-import { BaseView } from "../../../components/BaseView";
+import { RoomCard } from "../components/rooms/RoomCard";
+import { BaseView } from "../components/BaseView";
 import MapView, { Marker } from "react-native-maps";
 import { EvilIcons } from "@expo/vector-icons";
-import { HomeNavigationProps } from "./HomeNavigatorStacks";
+import { HomeNavigationProps } from "../navigations/HomeNavigatorStacks";
 
 interface Props extends HomeNavigationProps<"RoomScreen"> {}
 

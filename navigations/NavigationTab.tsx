@@ -1,13 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 import { HeaderOptions } from "@react-navigation/elements";
 import { Octicons } from "@expo/vector-icons";
-import { UserInfo } from "../../api/UserSchema";
-
 import { Image, View } from "react-native";
-import { ProfileScreen } from "./my-profile/ProfileScreen";
-import { HomeNavigatorStacks } from "./home/HomeNavigatorStacks";
+import { ProfileScreen } from "../screens/ProfileScreen";
+import { HomeNavigatorStacks } from "./HomeNavigatorStacks";
 
 export type TabParams = {
   HomeTab: undefined;
@@ -16,10 +13,6 @@ export type TabParams = {
 };
 
 const Tab = createBottomTabNavigator<TabParams>();
-
-interface Props {
-  userInfo: UserInfo;
-}
 
 const headerOptions: Pick<HeaderOptions, "headerTitle" | "headerTitleAlign"> = {
   headerTitle: () => (
@@ -30,7 +23,7 @@ const headerOptions: Pick<HeaderOptions, "headerTitle" | "headerTitleAlign"> = {
           alignSelf: "center",
           resizeMode: "contain",
         }}
-        source={require("../../assets/icon.png")}
+        source={require("../assets/icon.png")}
       />
     </View>
   ),

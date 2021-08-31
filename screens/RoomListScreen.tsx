@@ -2,11 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FlatList } from "react-native";
-import { getRooms } from "../../../api/Room";
-import { Rooms } from "../../../api/RoomsSchema";
-import { BaseView } from "../../../components/BaseView";
-import { RoomCard } from "../../../components/rooms/RoomCard";
-import { HomeNavigationProps } from "./HomeNavigatorStacks";
+import { getRooms } from "../api/Room";
+import { Rooms } from "../api/RoomsSchema";
+import { BaseView } from "../components/BaseView";
+import { RoomCard } from "../components/rooms/RoomCard";
+import { HomeNavigationProps } from "../navigations/HomeNavigatorStacks";
 
 interface Props extends HomeNavigationProps<"RoomListScreen"> {}
 

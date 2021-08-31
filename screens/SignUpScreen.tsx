@@ -1,22 +1,19 @@
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { RouteProp } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Form } from "../../components/forms/Form";
-import { DefaultScreenParamList } from "../Screens";
+import { Form } from "../components/forms/Form";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ControlledTextInput } from "../../components/forms/ControlledTextInput";
+import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import {
   UserInfo,
   UserSignUpForm,
   UserSignUpFormSchema,
-} from "../../api/UserSchema";
-import { signUp } from "../../api/User";
+} from "../api/UserSchema";
+import { signUp } from "../api/User";
 import { AxiosError } from "axios";
-import { BaseView } from "../../components/BaseView";
-import { UserAccountNavigationProps } from "./UserAccountNavigatorStacks";
+import { BaseView } from "../components/BaseView";
+import { UserAccountNavigationProps } from "../navigations/UserAccountNavigatorStacks";
 
 interface Props extends UserAccountNavigationProps<"SignUp"> {
   storeUserInfo: (userInfo: UserInfo) => void;
@@ -86,6 +83,9 @@ export const SignUpScreen = ({ navigation, storeUserInfo }: Props) => {
           multiline={true}
           numberOfLines={4}
           containerStyle={styles.textAreaView}
+          textStyle={{
+            height: 100,
+          }}
         />
         <ControlledTextInput
           control={control}

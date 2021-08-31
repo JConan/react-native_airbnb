@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { login } from "../../api/User";
-import { Form } from "../../components/forms/Form";
+import { login } from "../api/User";
+import { Form } from "../components/forms/Form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ControlledTextInput } from "../../components/forms/ControlledTextInput";
+import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import {
   UserInfo,
   UserSignInForms,
   UserSignInFormSchema,
-} from "../../api/UserSchema";
-import { BaseView } from "../../components/BaseView";
-import { UserAccountNavigationProps } from "./UserAccountNavigatorStacks";
+} from "../api/UserSchema";
+import { BaseView } from "../components/BaseView";
+import { UserAccountNavigationProps } from "../navigations/UserAccountNavigatorStacks";
 
 interface Props extends UserAccountNavigationProps<"SignIn"> {
   storeUserInfo: (userInfo: UserInfo) => void;

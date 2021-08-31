@@ -4,9 +4,9 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { Room } from "../../../api/RoomsSchema";
-import { RoomListScreen } from "./RoomListScreen";
-import { RoomScreen } from "./RoomScreen";
+import { Room } from "../api/RoomsSchema";
+import { RoomListScreen } from "../screens/RoomListScreen";
+import { RoomScreen } from "../screens/RoomScreen";
 import { HeaderOptions } from "@react-navigation/elements";
 
 type ScreenParams = {
