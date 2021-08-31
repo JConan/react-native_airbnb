@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/native-stack";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
-import { useUserState } from "../tools/customHooks";
+import { useUserSession } from "../tools/customHooks";
 
 type ScreensParams = {
   SignUp: undefined;
@@ -21,15 +21,15 @@ export type UserAccountNavigationProps<K extends keyof ScreensParams> = {
 };
 
 export const UserAccountNavigatorStacks = () => {
-  const { isLoading, store: storeUserInfo } = useUserState();
+  const { isLoading, store } = useUserSession();
 
   return (
     <Stack.Navigator>
       <Stack.Screen name="SignIn" options={{ headerShown: false }}>
-        {(props) => <SignInScreen {...props} storeUserInfo={storeUserInfo} />}
+        {(props) => <SignInScreen {...props} storeUserInfo={store} />}
       </Stack.Screen>
       <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-        {(props) => <SignUpScreen {...props} storeUserInfo={storeUserInfo} />}
+        {(props) => <SignUpScreen {...props} storeUserInfo={store} />}
       </Stack.Screen>
     </Stack.Navigator>
   );

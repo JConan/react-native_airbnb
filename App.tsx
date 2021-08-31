@@ -1,13 +1,13 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { TabNavigator } from "./navigations/NavigationTab";
-import { UserStateProvider } from "./tools/customHooks";
+import { UserSession } from "./tools/customHooks";
 import { UserAccountNavigatorStacks } from "./navigations/UserAccountNavigatorStacks";
 import { Loader } from "./components/Loader";
 
 export default function App() {
   return (
-    <UserStateProvider>
+    <UserSession>
       {({ userInfo, isLoading }) => (
         <NavigationContainer>
           {isLoading ? (
@@ -19,6 +19,6 @@ export default function App() {
           )}
         </NavigationContainer>
       )}
-    </UserStateProvider>
+    </UserSession>
   );
 }

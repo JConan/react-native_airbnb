@@ -8,24 +8,24 @@ import React, {
 import { UserInfo } from "../api/UserSchema";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-interface UserState {
+interface UserSession {
   userInfo: UserInfo | undefined;
   isLoading: boolean;
   store: (userInfo: UserInfo) => Promise<void> | undefined;
   logout: () => Promise<void> | undefined;
 }
 
-const UserStateContext = createContext<UserState>({
+const UserSessionContext = createContext<UserSession>({
   userInfo: undefined,
   isLoading: true,
   store: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 });
 
-export const UserStateProvider = ({
+export const UserSession = ({
   children,
 }: {
-  children: (userState: UserState) => React.ReactNode;
+  children: (userState: UserSession) => React.ReactNode;
 }) => {
   const [userInfo, setUser] = useState<UserInfo | undefined>();
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +50,7 @@ export const UserStateProvider = ({
   }, []);
 
   return (
-    <UserStateContext.Provider
+    <UserSessionContext.Provider
       value={{
         userInfo,
         isLoading,
@@ -59,11 +59,11 @@ export const UserStateProvider = ({
       }}
     >
       {children({ userInfo, isLoading, store, logout })}
-    </UserStateContext.Provider>
+    </UserSessionContext.Provider>
   );
 };
 
-export const useUserState = () => useContext(UserStateContext);
+export const useUserSession = () => useContext(UserSessionContext);
 
 export const useUserState2 = () => {
   const [userInfo, setUser] = useState<UserInfo | undefined>();
