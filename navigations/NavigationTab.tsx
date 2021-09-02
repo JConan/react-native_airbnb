@@ -5,6 +5,7 @@ import { Octicons } from "@expo/vector-icons";
 import { Image, View } from "react-native";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { HomeNavigatorStacks } from "./HomeNavigatorStacks";
+import { AroundMeNavigatorStacks } from "./AroundMeNavigatorStacks";
 
 export type TabParams = {
   HomeTab: undefined;
@@ -55,12 +56,13 @@ export const TabNavigator = () => {
         name="AroundMeTab"
         options={{
           title: "Around me",
+          headerShown: false,
           tabBarIcon: ({ focused, ...iconProps }) => (
             <Octicons name="broadcast" {...iconProps} />
           ),
         }}
       >
-        {() => <></>}
+        {() => <AroundMeNavigatorStacks screenOptions={{ ...headerOptions }} />}
       </Tab.Screen>
       <Tab.Screen
         name="MyProfileTab"

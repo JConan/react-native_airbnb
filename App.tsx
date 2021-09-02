@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { TabNavigator } from "./navigations/NavigationTab";
 import { UserSession } from "./tools/customHooks";
 import { UserAccountNavigatorStacks } from "./navigations/UserAccountNavigatorStacks";
-import { Loader } from "./components/Loader";
+import { LottieAnimation } from "./components/LottieAnimation";
 
 export default function App() {
   return (
@@ -11,7 +11,7 @@ export default function App() {
       {({ userInfo, isLoading }) => (
         <NavigationContainer>
           {isLoading ? (
-            <Loader animation="dot" />
+            <LottieAnimation animation="dot" />
           ) : userInfo ? (
             <TabNavigator />
           ) : (
