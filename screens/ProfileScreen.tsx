@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ScrollView, Text } from "react-native";
 import { BaseView } from "../components/BaseView";
-import { useUserSession } from "../tools/customHooks";
+import { useUserSession } from "../tools/CustomHooks";
 
 export const ProfileScreen = () => {
   const { userInfo, logout } = useUserSession();

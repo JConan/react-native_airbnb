@@ -6,7 +6,7 @@ import {
 } from "@react-navigation/native-stack";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
-import { useUserSession } from "../tools/customHooks";
+import { useUserSession } from "../tools/CustomHooks";
 
 type ScreensParams = {
   SignUp: undefined;

@@ -37,6 +37,7 @@ export const LottieAnimation = ({ animation }: Props) => {
       }}
     >
       <LottieView
+        hardwareAccelerationAndroid
         renderMode={animation === "position" ? "SOFTWARE" : "AUTOMATIC"}
         autoPlay
         loop

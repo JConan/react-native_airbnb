@@ -9,3 +9,17 @@ export const getRooms = async (): Promise<Rooms> => {
     })
     .then((response) => response.data);
 };
+
+export interface Coords {
+  latitude: number;
+  longitude: number;
+}
+
+export const getRoomsAround = async (coords?: Coords): Promise<Rooms> => {
+  return axios
+    .get("/rooms/around", {
+      baseURL: Constants.manifest?.extra?.backendBasePath,
+      params: { ...coords },
+    })
+    .then((response) => response.data);
+};

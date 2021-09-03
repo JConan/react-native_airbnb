@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { TabNavigator } from "./navigations/NavigationTab";
-import { UserSession } from "./tools/customHooks";
+import { UserSession } from "./tools/CustomHooks";
 import { UserAccountNavigatorStacks } from "./navigations/UserAccountNavigatorStacks";
 import { LottieAnimation } from "./components/LottieAnimation";
 

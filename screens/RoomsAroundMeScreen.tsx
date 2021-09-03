@@ -9,22 +9,16 @@ import {
   getLastKnownPositionAsync,
 } from "expo-location";
 import { LottieAnimation } from "../components/LottieAnimation";
+import { Coords, getRoomsAround } from "../api/Room";
+import { Rooms } from "../api/RoomsSchema";
+import { Ionicons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 interface Props extends AroundMeNavigationProps<"RoomsAroundMeScreen"> {}
 
-interface coords {
-  latitude: number;
-  longitude: number;
-}
-
-const fakePosition: coords = {
-  latitude: 48.8564449,
-  longitude: 2.4002913,
-};
-
-const testCoords: coords[] = [
+const testCoords: Coords[] = [
   {
-    latitude: 48.8564449,
+    latitude: 48.8684449,
     longitude: 2.4002913,
   },
   {
@@ -40,12 +34,19 @@ const testCoords: coords[] = [
 export const RoomsAroundMeScreen = ({}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLocationGranted, setLocationGranted] = useState(false);
-  const [coords, setCoords] = useState<coords>({ ...testCoords[0] });
+  const [coords, setCoords] = useState<Coords>({ ...testCoords[0] });
   const [testId, setTestId] = useState<number | undefined>(1);
+  const [rooms, setRooms] = useState<Rooms>();
 
   useEffect(() => {
     testId && setCoords(testCoords[testId - 1]);
   }, [testId]);
+
+  useEffect(() => {
+    getRoomsAround(coords)
+      .then((rooms) => setRooms(rooms))
+      .catch((error) => console.error(error));
+  }, [coords]);
 
   const checkLocationPermission = () =>
     requestForegroundPermissionsAsync().then(({ granted }) => {
@@ -67,9 +68,12 @@ export const RoomsAroundMeScreen = ({}: Props) => {
   const getPosition = async () => {
     setTestId(undefined);
     setIsLoading(true);
+
     const isLocationGranted = await checkLocationPermission();
-    isLocationGranted && (await getCoords());
-    !isLocationGranted &&
+    setLocationGranted(isLocationGranted);
+    if (isLocationGranted) {
+      await getCoords();
+    } else {
       Alert.alert(
         "Erreur",
         "La récupération de coordonnées GPS n'a pas pu aboutir.",
@@ -80,8 +84,9 @@ export const RoomsAroundMeScreen = ({}: Props) => {
           },
           { text: "annuler" },
         ]
-      ) &&
-      setTestId(1);
+      );
+    }
+
     setIsLoading(false);
   };
 
@@ -105,6 +110,17 @@ export const RoomsAroundMeScreen = ({}: Props) => {
           >
             {coords && (
               <>
+                {rooms?.map((room) => (
+                  <Marker
+                    key={room._id}
+                    coordinate={{
+                      longitude: room.location[0],
+                      latitude: room.location[1],
+                    }}
+                  >
+                    <Ionicons name="home" size={16} color="red" />
+                  </Marker>
+                ))}
                 <Marker
                   coordinate={{
                     latitude: coords.latitude,
@@ -140,29 +156,23 @@ export const RoomsAroundMeScreen = ({}: Props) => {
                   <LottieAnimation animation="dot" />
                 </View>
               )) || (
-                <Text
-                  style={{
-                    color: isLocationGranted ? "red" : "grey",
-                    textDecorationLine: !isLocationGranted
-                      ? "line-through"
-                      : undefined,
-                    textDecorationColor: "grey",
-                    paddingHorizontal: 10,
-                    alignSelf: "center",
-                  }}
-                >
-                  Ma Position
-                </Text>
+                <View style={{ alignItems: "center" }}>
+                  <Feather
+                    name="target"
+                    size={24}
+                    color={!isLocationGranted || testId ? "grey" : "red"}
+                  />
+                </View>
               )}
             </TouchableOpacity>
             <Text
               style={{
-                color: "red",
+                color: "grey",
                 paddingHorizontal: 10,
                 alignSelf: "center",
               }}
             >
-              donnée de test :
+              Coord. de test :
             </Text>
             <View
               style={{
