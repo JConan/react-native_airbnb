@@ -60,6 +60,7 @@ export const TabNavigator = () => {
           tabBarIcon: ({ focused, ...iconProps }) => (
             <Octicons name="broadcast" {...iconProps} />
           ),
+          unmountOnBlur: true,
         }}
       >
         {() => <AroundMeNavigatorStacks screenOptions={{ ...headerOptions }} />}

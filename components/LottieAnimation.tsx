@@ -17,7 +17,7 @@ export const LottieAnimation = ({ animation }: Props) => {
       source: require("../assets/lottie-animation/Compass.json"),
     },
     position: {
-      style: { transform: [{ scale: 1 }] },
+      style: {},
       source: require("../assets/lottie-animation/Position.json"),
     },
     dot: {
