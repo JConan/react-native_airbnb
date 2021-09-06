@@ -13,10 +13,12 @@ interface Props {
   screenOptions: NativeStackNavigationOptions;
 }
 
-export const MyProfileNavigatorStacks = ({ screenOptions }: Props) => (
-  <Stack.Navigator {...{ screenOptions }}>
-    <Stack.Screen name="ProfileScreen">
-      {(props) => <ProfileScreen />}
-    </Stack.Screen>
-  </Stack.Navigator>
-);
+export const MyProfileNavigatorStacks = ({ screenOptions }: Props) => {
+  return (
+    <Stack.Navigator {...{ screenOptions }}>
+      <Stack.Screen name="ProfileScreen">
+        {(props) => <ProfileScreen />}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};

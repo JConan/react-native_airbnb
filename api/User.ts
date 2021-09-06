@@ -1,6 +1,11 @@
 import axios from "axios";
 import Constants from "expo-constants";
-import { UserInfo, UserSignInForms, UserSignUpForm } from "./UserSchema";
+import {
+  UserInfo,
+  UserSignInForms,
+  UserSignUpForm,
+  UserUpdateFormSchema,
+} from "./UserSchema";
 
 export const login = async (data: UserSignInForms): Promise<UserInfo> => {
   return axios
@@ -15,6 +20,20 @@ export const signUp = async (data: UserSignUpForm): Promise<UserInfo> => {
   return axios
     .post("/user/sign_up", formData, {
       baseURL: Constants.manifest?.extra?.backendBasePath,
+    })
+    .then((response) => response.data);
+};
+
+export const update = async (
+  token: string,
+  data: Pick<UserInfo, "email" | "username" | "description">
+): Promise<Omit<UserInfo, "token">> => {
+  return axios
+    .put(`/user/update`, data, {
+      baseURL: Constants.manifest?.extra?.backendBasePath,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     .then((response) => response.data);
 };
