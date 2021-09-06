@@ -33,3 +33,4 @@ export const RoomsSchema = z.array(RoomSchema);
 
 export type Rooms = z.infer<typeof RoomsSchema>;
 export type Room = z.infer<typeof RoomSchema>;
+export type RoomId = { _id: string };

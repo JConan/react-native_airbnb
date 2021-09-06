@@ -5,9 +5,7 @@ import {
 import React from "react";
 import { ProfileScreen } from "../screens/ProfileScreen";
 
-type ScreenParams = {
-  ProfileScreen: undefined;
-};
+type ScreenParams = ReactNavigation.MyProfile.ScreenParams;
 
 const Stack = createNativeStackNavigator<ScreenParams>();
 

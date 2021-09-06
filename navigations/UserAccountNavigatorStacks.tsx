@@ -21,7 +21,7 @@ export type UserAccountNavigationProps<K extends keyof ScreensParams> = {
 };
 
 export const UserAccountNavigatorStacks = () => {
-  const { isLoading, store } = useUserSession();
+  const { store } = useUserSession();
 
   return (
     <Stack.Navigator>

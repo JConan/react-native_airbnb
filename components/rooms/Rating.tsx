@@ -8,10 +8,6 @@ interface RatingProp {
 }
 
 export const Rating = ({ rate, reviews }: RatingProp) => {
-  const Star = (color: string) => (
-    <Octicons name="star" size={24} color={color} />
-  );
-
   const starColor = Array.from({ length: 5 }, (_, i) =>
     i < rate ? "gold" : "gray"
   );

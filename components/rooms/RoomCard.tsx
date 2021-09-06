@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import React from "react";
 import { Image, StyleSheet, Text, View, Pressable } from "react-native";
 import { Room } from "../../api/RoomsSchema";
 import { Rating } from "./Rating";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { HomeScreenStackParamList } from "../../navigations-screens/Screens";
+import { useHomeNavigation } from "../../navigations/HomeNavigatorStacks";
 
 export const RoomCard = (room: Room & { fullContent?: boolean }) => {
-  const navigation =
-    useNavigation<
-      NativeStackNavigationProp<HomeScreenStackParamList, "RoomScreen">
-    >();
+  const navigation = useHomeNavigation();
 
   return (
     <Pressable onPress={() => navigation.navigate("RoomScreen", room)}>
