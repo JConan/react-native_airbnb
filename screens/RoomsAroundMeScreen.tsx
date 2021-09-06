@@ -31,7 +31,7 @@ const testCoords: Coords[] = [
   },
 ];
 
-export const RoomsAroundMeScreen = ({}: Props) => {
+export const RoomsAroundMeScreen = ({ navigation }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isLocationGranted, setLocationGranted] = useState(false);
   const [coords, setCoords] = useState<Coords>({ ...testCoords[0] });
@@ -117,8 +117,26 @@ export const RoomsAroundMeScreen = ({}: Props) => {
                       longitude: room.location[0],
                       latitude: room.location[1],
                     }}
+                    onPress={() => navigation.navigate("RoomScreen", room)}
+                    style={{ alignItems: "center" }}
                   >
-                    <Ionicons name="home" size={16} color="red" />
+                    <Ionicons name="home" size={24} color="red" />
+                    <View
+                      style={{
+                        backgroundColor: "red",
+                        padding: 2,
+                        borderRadius: 5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: "white",
+                          alignSelf: "center",
+                        }}
+                      >
+                        {room.price} €
+                      </Text>
+                    </View>
                   </Marker>
                 ))}
                 <Marker

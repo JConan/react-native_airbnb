@@ -6,7 +6,7 @@ declare global {
     namespace Home {
       type ScreenParams = {
         RoomListScreen: undefined;
-        RoomScreen: Room;
+        RoomScreen: RoomId;
       };
       namespace Navigation {
         type RoomListScreen = NativeStackNavigationProp<
