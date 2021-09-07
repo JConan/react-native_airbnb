@@ -1,16 +1,24 @@
 import React, { useEffect } from "react";
-import { Button, ScrollView, Text } from "react-native";
+import { Button, Image, Text, TouchableOpacity, View } from "react-native";
 import { update } from "../api/User";
 import { BaseView } from "../components/BaseView";
 import { useUserSession } from "../tools/CustomHooks";
+import { Ionicons } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ControlledTextInput } from "../components/forms/ControlledTextInput";
+import { useForm } from "react-hook-form";
+import { Form } from "../components/forms/Form";
 
 export const ProfileScreen = () => {
   const { userInfo, store, logout } = useUserSession();
 
-  useEffect(() => {
-    console.log("hello");
-    console.log(userInfo);
-  }, []);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    // resolver: zodResolver(UserSignInFormSchema),
+  });
 
   const doUpdate = () => {
     const { email, username, token } = userInfo!;
@@ -28,12 +36,109 @@ export const ProfileScreen = () => {
 
   return (
     <BaseView>
-      <ScrollView>
-        <Text>{JSON.stringify(userInfo)}</Text>
+      <Form
+        validationButtonName="Update"
+        validationButtonDisabled={isSubmitting}
+        onValidationButtonPress={handleSubmit(doUpdate)}
+      >
+        <View
+          style={{
+            justifyContent: "center",
+            flexDirection: "row",
+            marginBottom: 50,
+          }}
+        >
+          <View
+            style={{
+              height: 100,
+              width: 100,
+              borderWidth: 1,
+              borderColor: "red",
+              borderRadius: 50,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                height: 90,
+                width: 90,
+                borderRadius: 45,
+                overflow: "hidden",
 
-        <Button title="update" onPress={doUpdate} />
-        <Button title="logout" onPress={logout} />
-      </ScrollView>
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {userInfo?.photo?.url ? (
+                <Image
+                  style={{ flex: 1, resizeMode: "center" }}
+                  source={{ uri: userInfo?.photo?.url }}
+                />
+              ) : (
+                <Ionicons name="md-person" size={64} color="#E7E7E7" />
+              )}
+            </View>
+          </View>
+          <View style={{ margin: 10, justifyContent: "space-around" }}>
+            <Ionicons name="images-sharp" size={24} color="gray" />
+            <Ionicons name="camera-sharp" size={24} color="gray" />
+          </View>
+        </View>
+
+        <ControlledTextInput
+          control={control}
+          name="email"
+          defaultValue={userInfo?.email}
+        />
+        <ControlledTextInput
+          control={control}
+          name="username"
+          defaultValue={userInfo?.username}
+        />
+        <ControlledTextInput
+          control={control}
+          defaultValue={userInfo?.description}
+          name="description"
+          placeholder="describe yourself in a few words..."
+          multiline={true}
+          numberOfLines={4}
+          containerStyle={{
+            borderWidth: 1,
+            borderColor: "red",
+            paddingHorizontal: 10,
+            paddingVertical: 5,
+            height: 110,
+            alignItems: "flex-start",
+          }}
+          textStyle={{
+            height: 100,
+          }}
+        />
+        <TouchableOpacity
+          style={{
+            width: 200,
+            height: 60,
+            borderWidth: 1,
+            borderRadius: 50,
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+            borderColor: "red",
+            position: "absolute",
+            bottom: 100,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 18,
+              color: "#000",
+            }}
+          >
+            Logout
+          </Text>
+        </TouchableOpacity>
+      </Form>
     </BaseView>
   );
 };

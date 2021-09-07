@@ -11,10 +11,10 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 interface FormProp {
-  title: string;
+  title?: string;
   validationButtonName: string;
   validationButtonDisabled?: boolean | null | undefined;
-  linkButtonName: string;
+  linkButtonName?: string;
   children?: React.ReactNode;
   errorMessage?: string;
   onValidationButtonPress?:
@@ -35,21 +35,25 @@ export const Form = ({
 }: FormProp) => {
   return (
     <KeyboardAwareScrollView style={{ flex: 1, paddingHorizontal: 16 }}>
-      <Image
-        style={{
-          marginTop: 60,
-          width: 130,
-          height: 100,
-          alignSelf: "center",
-        }}
-        resizeMode="contain"
-        source={require("../../assets/icon.png")}
-      />
-      <Text style={styles.title}>{title}</Text>
+      {title !== undefined && (
+        <>
+          <Image
+            style={{
+              marginTop: 60,
+              width: 130,
+              height: 100,
+              alignSelf: "center",
+            }}
+            resizeMode="contain"
+            source={require("../../assets/icon.png")}
+          />
+          <Text style={styles.title}>{title}</Text>
+        </>
+      )}
 
       {children}
 
-      <View style={{ marginTop: 50, position: "relative" }}>
+      <View style={{ marginTop: 25, position: "relative" }}>
         {validationButtonDisabled && (
           <ActivityIndicator
             style={{
@@ -116,6 +120,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: "center",
     color: "grey",
-    marginBottom: 50,
+    marginBottom: 150,
   },
 });

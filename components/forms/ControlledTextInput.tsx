@@ -12,6 +12,7 @@ import { Octicons } from "@expo/vector-icons";
 interface ControlledTextInputProps {
   control: Control<FieldValues, object>;
   name: string;
+  defaultValue?: any;
   placeholder?: string | undefined;
   secureTextEntry?: boolean | undefined;
   containerStyle?: ViewStyle;
@@ -25,6 +26,7 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
 
   return (
     <Controller
+      defaultValue={props.defaultValue}
       control={props.control}
       render={({ field: { onChange, onBlur, value } }) => (
         <View style={{ ...styles.container, ...props.containerStyle }}>
@@ -52,7 +54,6 @@ export const ControlledTextInput = (props: ControlledTextInputProps) => {
         </View>
       )}
       name={props.name}
-      defaultValue=""
     />
   );
 };
