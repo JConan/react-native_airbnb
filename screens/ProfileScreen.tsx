@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { Button, Image, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { update } from "../api/User";
 import { BaseView } from "../components/BaseView";
 import { useUserSession } from "../tools/CustomHooks";
 import { Ionicons } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import { useForm } from "react-hook-form";
 import { Form } from "../components/forms/Form";
@@ -65,15 +64,17 @@ export const ProfileScreen = () => {
                 width: 90,
                 borderRadius: 45,
                 overflow: "hidden",
-
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
               {userInfo?.photo?.url ? (
                 <Image
-                  style={{ flex: 1, resizeMode: "center" }}
-                  source={{ uri: userInfo?.photo?.url }}
+                  style={{
+                    height: 90,
+                    width: 90,
+                  }}
+                  source={{ uri: userInfo.photo.url }}
                 />
               ) : (
                 <Ionicons name="md-person" size={64} color="#E7E7E7" />
@@ -127,13 +128,16 @@ export const ProfileScreen = () => {
             borderColor: "red",
             position: "absolute",
             bottom: 100,
+            zIndex: 10,
           }}
+          onPress={logout}
         >
           <Text
             style={{
               fontSize: 18,
               color: "#000",
             }}
+            onPress={logout}
           >
             Logout
           </Text>
