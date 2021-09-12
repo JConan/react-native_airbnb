@@ -5,10 +5,18 @@ export const UserInfoSchema = z.object({
   email: z.string().email(),
   id: z.string(),
   photo: z
-    .object({
-      picture_id: z.string(),
-      url: z.string().url(),
-    })
+    .union([
+      z.object({
+        picture_id: z.string(),
+        url: z.string().url(),
+      }),
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        type: z.string(),
+        url: z.string().url(),
+      }),
+    ])
     .nullable()
     .optional(),
   rooms: z.array(z.string()),
@@ -34,17 +42,13 @@ export const UserSignUpFormSchema = z
     path: ["confirmPassword"],
   });
 
-export const UserUpdateFormSchema = z
-  .object({
-    email: z.string().email().optional(),
-    description: z.string().min(1).optional(),
-    username: z.string().min(1).optional(),
-  })
-  .refine((data) => Object.keys(data).length > 0, {
-    message: "at least one of the property must be defined",
-  });
+export const UserUpdateFormSchema = z.object({
+  email: z.string().email(),
+  description: z.string().min(1),
+  username: z.string().min(1),
+});
 
 export type UserSignInForms = z.infer<typeof UserSignInFormSchema>;
 export type UserSignUpForm = z.infer<typeof UserSignUpFormSchema>;
 export type UserInfo = z.infer<typeof UserInfoSchema>;
-export type UserUpdateFormSchema = z.infer<typeof UserUpdateFormSchema>;
+export type UserUpdateForm = z.infer<typeof UserUpdateFormSchema>;

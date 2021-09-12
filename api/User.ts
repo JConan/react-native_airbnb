@@ -6,6 +6,8 @@ import {
   UserSignUpForm,
   UserUpdateFormSchema,
 } from "./UserSchema";
+import FormData from "form-data";
+import path from "path";
 
 export const login = async (data: UserSignInForms): Promise<UserInfo> => {
   return axios
@@ -32,7 +34,25 @@ export const update = async (
     .put(`/user/update`, data, {
       baseURL: Constants.manifest?.extra?.backendBasePath,
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data);
+};
+
+export const updatePicture = async (token: string, uri: string) => {
+  const data = new FormData();
+  data.append("photo", {
+    uri,
+    name: "userPicture",
+    type: `image/${path.extname(uri)}`,
+  });
+
+  return axios
+    .put(`/user/upload_picture`, data, {
+      baseURL: Constants.manifest?.extra?.backendBasePath,
+      headers: {
+        authorization: `Bearer ${token}`,
       },
     })
     .then((response) => response.data);
