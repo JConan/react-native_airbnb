@@ -1,15 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { update } from "../api/User";
+import { update, updatePicture } from "../api/User";
 import { BaseView } from "../components/BaseView";
 import { useUserSession } from "../tools/CustomHooks";
 import { Ionicons } from "@expo/vector-icons";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import { useForm } from "react-hook-form";
 import { Form } from "../components/forms/Form";
+import {
+  getMediaLibraryPermissionsAsync,
+  requestMediaLibraryPermissionsAsync,
+  launchImageLibraryAsync,
+} from "expo-image-picker";
+import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 
 export const ProfileScreen = () => {
   const { userInfo, store, logout } = useUserSession();
+
+  console.log(userInfo);
+
+  useEffect(() => {
+    getMediaLibraryPermissionsAsync()
+      .then(async (permission) => {
+        if (!permission.granted) await requestMediaLibraryPermissionsAsync();
+        const result = await launchImageLibraryAsync();
+        if (!result.cancelled) {
+          return result as ImageInfo;
+        }
+      })
+      .then((imageInfo) => {
+        return imageInfo && updatePicture(userInfo!.token!, imageInfo.uri);
+      })
+      .then((result) => {
+        console.log(result);
+      })
+      .catch(console.error);
+  });
 
   const {
     control,
