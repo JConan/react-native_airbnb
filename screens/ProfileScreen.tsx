@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { update, updatePicture } from "../api/User";
 import { BaseView } from "../components/BaseView";
-import { useUserSession } from "../tools/CustomHooks";
 import { Ionicons } from "@expo/vector-icons";
 import { ControlledTextInput } from "../components/forms/ControlledTextInput";
 import { useForm } from "react-hook-form";
@@ -11,31 +10,14 @@ import {
   getMediaLibraryPermissionsAsync,
   requestMediaLibraryPermissionsAsync,
   launchImageLibraryAsync,
+  getCameraPermissionsAsync,
+  requestCameraPermissionsAsync,
 } from "expo-image-picker";
 import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
+import { useUserInfo } from "../tools/customHooks/useUserInfo";
 
 export const ProfileScreen = () => {
-  const { userInfo, store, logout } = useUserSession();
-
-  console.log(userInfo);
-
-  useEffect(() => {
-    getMediaLibraryPermissionsAsync()
-      .then(async (permission) => {
-        if (!permission.granted) await requestMediaLibraryPermissionsAsync();
-        const result = await launchImageLibraryAsync();
-        if (!result.cancelled) {
-          return result as ImageInfo;
-        }
-      })
-      .then((imageInfo) => {
-        return imageInfo && updatePicture(userInfo!.token!, imageInfo.uri);
-      })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch(console.error);
-  });
+  const { userInfo, setUserInfo: store, logout } = useUserInfo()!;
 
   const {
     control,
@@ -57,6 +39,36 @@ export const ProfileScreen = () => {
         console.log(updated);
       })
       .catch(console.error);
+  };
+
+  const { photo } = userInfo || {};
+  const photoUrl = Array.isArray(photo)
+    ? photo[0].url
+    : (photo as { url: string | undefined }).url;
+
+  const pickImage = async () => {
+    const { granted, status } = await getMediaLibraryPermissionsAsync();
+    if (!granted && status === "denied") {
+      Alert.alert(
+        "Error",
+        "Désolé, mais la permission d'accès aux médias est nécessaire pour fonctionner."
+      );
+    } else {
+      const { granted, status } = await requestMediaLibraryPermissionsAsync();
+    }
+
+    console.log("PickImage");
+    console.log({ getPermission: await getMediaLibraryPermissionsAsync() });
+    console.log({
+      requestPermission: await requestMediaLibraryPermissionsAsync(),
+    });
+  };
+  const takeImage = async () => {
+    console.log("TakeImage");
+    console.log({ getPermission: await getCameraPermissionsAsync() });
+    console.log({
+      requestPermission: await requestCameraPermissionsAsync(),
+    });
   };
 
   return (
@@ -94,13 +106,13 @@ export const ProfileScreen = () => {
                 alignItems: "center",
               }}
             >
-              {userInfo?.photo?.url ? (
+              {photoUrl ? (
                 <Image
                   style={{
                     height: 90,
                     width: 90,
                   }}
-                  source={{ uri: userInfo.photo.url }}
+                  source={{ uri: photoUrl }}
                 />
               ) : (
                 <Ionicons name="md-person" size={64} color="#E7E7E7" />
@@ -108,8 +120,18 @@ export const ProfileScreen = () => {
             </View>
           </View>
           <View style={{ margin: 10, justifyContent: "space-around" }}>
-            <Ionicons name="images-sharp" size={24} color="gray" />
-            <Ionicons name="camera-sharp" size={24} color="gray" />
+            <Ionicons
+              name="images-sharp"
+              size={24}
+              color="gray"
+              onPress={pickImage}
+            />
+            <Ionicons
+              name="camera-sharp"
+              size={24}
+              color="gray"
+              onPress={takeImage}
+            />
           </View>
         </View>
 

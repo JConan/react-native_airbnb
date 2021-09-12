@@ -7,6 +7,8 @@ import {
 import { SignInScreen } from "../screens/SignInScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import { useUserSession } from "../tools/CustomHooks";
+import { useUserInfo } from "../tools/customHooks/useUserInfo";
+import { UserInfo } from "../api/UserSchema";
 
 type ScreensParams = {
   SignUp: undefined;
@@ -21,15 +23,15 @@ export type UserAccountNavigationProps<K extends keyof ScreensParams> = {
 };
 
 export const UserAccountNavigatorStacks = () => {
-  const { store } = useUserSession();
+  const { storeUserInfo } = useUserInfo()!;
 
   return (
     <Stack.Navigator>
       <Stack.Screen name="SignIn" options={{ headerShown: false }}>
-        {(props) => <SignInScreen {...props} storeUserInfo={store} />}
+        {(props) => <SignInScreen {...props} storeUserInfo={storeUserInfo} />}
       </Stack.Screen>
       <Stack.Screen name="SignUp" options={{ headerShown: false }}>
-        {(props) => <SignUpScreen {...props} storeUserInfo={store} />}
+        {(props) => <SignUpScreen {...props} storeUserInfo={storeUserInfo} />}
       </Stack.Screen>
     </Stack.Navigator>
   );

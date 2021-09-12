@@ -10,12 +10,14 @@ export const UserInfoSchema = z.object({
         picture_id: z.string(),
         url: z.string().url(),
       }),
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        type: z.string(),
-        url: z.string().url(),
-      }),
+      z.array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          type: z.string(),
+          url: z.string().url(),
+        })
+      ),
     ])
     .nullable()
     .optional(),

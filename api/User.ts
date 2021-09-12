@@ -1,11 +1,6 @@
 import axios from "axios";
 import Constants from "expo-constants";
-import {
-  UserInfo,
-  UserSignInForms,
-  UserSignUpForm,
-  UserUpdateFormSchema,
-} from "./UserSchema";
+import { UserInfo, UserSignInForms, UserSignUpForm } from "./UserSchema";
 import FormData from "form-data";
 import path from "path";
 
@@ -57,3 +52,13 @@ export const updatePicture = async (token: string, uri: string) => {
     })
     .then((response) => response.data);
 };
+
+export const getUserInfo = (token: string, userId: string) =>
+  axios
+    .get(`/user/${userId}`, {
+      baseURL: Constants.manifest?.extra?.backendBasePath,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => response.data as Omit<UserInfo, "token">);
