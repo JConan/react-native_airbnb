@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import { update, updatePicture } from "../api/User";
 import { BaseView } from "../components/BaseView";
@@ -12,33 +12,45 @@ import {
   launchImageLibraryAsync,
   getCameraPermissionsAsync,
   requestCameraPermissionsAsync,
+  launchCameraAsync,
 } from "expo-image-picker";
-import { ImageInfo } from "expo-image-picker/build/ImagePicker.types";
 import { useUserInfo } from "../tools/customHooks/useUserInfo";
+import { UserInfo, UserUpdateForm } from "../api/UserSchema";
 
 export const ProfileScreen = () => {
-  const { userInfo, setUserInfo: store, logout } = useUserInfo()!;
+  const { userInfo, setUserInfo, logout } = useUserInfo()!;
 
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({
-    // resolver: zodResolver(UserSignInFormSchema),
-  });
+  } = useForm();
 
-  const doUpdate = () => {
-    const { email, username, token } = userInfo!;
-    update(token!, {
-      email,
-      username,
-      description: "Possédé par la soif d’apprendre",
-    })
-      .then((updated) => {
-        store({ ...userInfo, ...updated });
-        console.log(updated);
-      })
-      .catch(console.error);
+  const doUpdate = async (formData: UserUpdateForm) => {
+    const { email, username, description, token, photo } = userInfo!;
+    console.log({ email, username, description, token, photo });
+
+    let newUserInfo: UserInfo = { ...userInfo! };
+
+    if (
+      email !== formData.email ||
+      username !== formData.username ||
+      description !== formData.description
+    ) {
+      newUserInfo = await update(token!, formData);
+    }
+
+    if (photo && !Array.isArray(photo) && photo.picture_id === "newPicture") {
+      const response = await updatePicture(token!, photo.url).catch(
+        console.error
+      );
+      if (response && response.photo)
+        newUserInfo = { ...newUserInfo, photo: response.photo };
+    }
+
+    if (newUserInfo) {
+      setUserInfo({ ...newUserInfo, token });
+    }
   };
 
   const { photo } = userInfo || {};
@@ -47,28 +59,49 @@ export const ProfileScreen = () => {
     : (photo as { url: string | undefined }).url;
 
   const pickImage = async () => {
-    const { granted, status } = await getMediaLibraryPermissionsAsync();
-    if (!granted && status === "denied") {
+    const granted =
+      (await getMediaLibraryPermissionsAsync().then(
+        ({ granted }) => granted
+      )) ||
+      (await requestMediaLibraryPermissionsAsync().then(
+        ({ granted }) => granted
+      ));
+
+    if (granted) {
+      const imageSelection = await launchImageLibraryAsync();
+      if (imageSelection.cancelled === false) {
+        setUserInfo({
+          ...userInfo!,
+          photo: { picture_id: "newPicture", url: imageSelection.uri },
+        });
+      }
+    } else {
       Alert.alert(
         "Error",
         "Désolé, mais la permission d'accès aux médias est nécessaire pour fonctionner."
       );
-    } else {
-      const { granted, status } = await requestMediaLibraryPermissionsAsync();
     }
-
-    console.log("PickImage");
-    console.log({ getPermission: await getMediaLibraryPermissionsAsync() });
-    console.log({
-      requestPermission: await requestMediaLibraryPermissionsAsync(),
-    });
   };
   const takeImage = async () => {
     console.log("TakeImage");
-    console.log({ getPermission: await getCameraPermissionsAsync() });
-    console.log({
-      requestPermission: await requestCameraPermissionsAsync(),
-    });
+    const granted =
+      (await getCameraPermissionsAsync().then(({ granted }) => granted)) ||
+      (await requestCameraPermissionsAsync().then(({ granted }) => granted));
+
+    if (granted) {
+      const imageSelection = await launchCameraAsync();
+      if (imageSelection.cancelled === false) {
+        setUserInfo({
+          ...userInfo!,
+          photo: { picture_id: "newPicture", url: imageSelection.uri },
+        });
+      }
+    } else {
+      Alert.alert(
+        "Error",
+        "Désolé, mais la permission d'accès aux médias est nécessaire pour fonctionner."
+      );
+    }
   };
 
   return (

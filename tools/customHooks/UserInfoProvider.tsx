@@ -44,7 +44,7 @@ export const UserInfoProvider = ({
       setRequesting(true);
       const { token, userId } = userSession;
       getUserInfo(token, userId)
-        .then((info) => setUserInfo(info))
+        .then((info) => setUserInfo({ ...info, token }))
         .catch((error) => console.error(JSON.stringify(error)))
         .then(() => setRequesting(false));
     }

@@ -50,7 +50,7 @@ export const updatePicture = async (token: string, uri: string) => {
         authorization: `Bearer ${token}`,
       },
     })
-    .then((response) => response.data);
+    .then((response) => response.data as Omit<UserInfo, "token">);
 };
 
 export const getUserInfo = (token: string, userId: string) =>

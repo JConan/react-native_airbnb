@@ -19,7 +19,6 @@ export const UserInfoSchema = z.object({
         })
       ),
     ])
-    .nullable()
     .optional(),
   rooms: z.array(z.string()),
   token: z.string().optional(),

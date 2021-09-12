@@ -3,7 +3,7 @@
     "privacy": "public",
     "name": "airbnb",
     "slug": "airbnb",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "githubUrl": "https://github.com/JConan/react-native_airbnb",
     "description": "https://github.com/JConan/react-native_airbnb",
     "icon": "./assets/icon.png",
